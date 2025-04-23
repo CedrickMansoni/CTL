@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctl.mobile.view.Office.View.Noticia_OfficePage"
+             Title="Adicionar noticia"
+             BackgroundColor="#058380"
+             Shell.BackgroundColor="#058380"
+             Shell.ForegroundColor="#FFF"
+             Shell.TitleColor="#FFF"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
+             x:DataType="vm:NoticiaAdd_OfficeViewModel">
+
+    <ContentPage.BindingContext>
+        <vm:NoticiaAdd_OfficeViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid RowDefinitions="Auto,Auto,auto, *" IsEnabled="{Binding EnablePage}">
+            <Image Source="bg_imageplay"
+                   Grid.Row="0"
+                   Grid.RowSpan="3"
+                   Aspect="Fill"/>
+            <Border Grid.Row="2"
+                    Grid.RowSpan="2"
+                    StrokeShape="RoundRectangle 30 30 0 0"
+                    StrokeThickness="0"
+                    Padding="30"
+                    BackgroundColor="#FFF">
+                <Grid RowDefinitions="Auto, Auto, Auto, Auto"
+                      RowSpacing="18">
+                    <Border Grid.Row="0"
+                            BackgroundColor="#f2f4f5"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            Padding="15, -15">
+                        <Entry Placeholder="Título"
+                               HeightRequest="75"
+                               FontFamily="MontserratMedium"
+                               FontSize="20"
+                               Text="{Binding Noticia.Titulo}"/>
+                    </Border>
+
+                    <Border Grid.Row="1"
+                            BackgroundColor="#f2f4f5"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            Padding="15, 0">
+                        <Editor Placeholder="Título"
+                                HeightRequest="300"
+                                FontFamily="MontserratMedium"
+                                FontSize="20"
+                                Text="{Binding Noticia.Materia}"/>
+                    </Border>
+
+                    <Image Source="{Binding ColorFile}"
+                           Grid.Row="2"
+                           HeightRequest="40"
+                           HorizontalOptions="Start">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AbrirCameraCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Label Text="{Binding NomeFile}"
+                           Grid.Row="2"
+                           VerticalOptions="Center"
+                           Margin="45, 0"
+                           FontFamily="MontserratMedium"
+                           FontSize="15"/>
+                    <Button Text="Salvar"
+                            Grid.Row="3"
+                            BackgroundColor="#058380"
+                            FontFamily="MontserratMedium"
+                            FontSize="19"
+                            Command="{Binding CadastrarNoticiaCommand}"/>
+                </Grid>
+            </Border>
+
+        </Grid>
+        <StackLayout BackgroundColor="{Binding Activity}"
+                     Opacity="0.8"
+                     IsVisible="False"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill"/>
+        <ActivityIndicator IsRunning="{Binding Activity}"
+                           Color="#058380"
+                           WidthRequest="100"/>
+    </Grid>
+</ContentPage>

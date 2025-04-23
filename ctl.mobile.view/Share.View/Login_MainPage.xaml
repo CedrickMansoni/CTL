@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctl.mobile.view.Share.View.Login_MainPage"
+             BackgroundColor="#058380"
+             Shell.NavBarIsVisible="False">
+
+       <Grid>
+              <Grid RowDefinitions="Auto,*,Auto">
+                     <Image Source="bola"
+                            HeightRequest="30"
+                            HorizontalOptions="Start"
+                            Margin="10, 30"/>
+                     <Label Text="Clube de Ténis de Luanda"
+                            HorizontalOptions="Center"
+                            FontSize="23"
+                            FontAttributes="Bold"
+                            FontFamily="MontserratBold"
+                            TextColor="#FFF"
+                            Margin="50,50"/>
+                     <Image Source="bola"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Margin="10, 30"/>
+                     <Border Grid.RowSpan="2"
+                             Grid.Row="1"
+                             StrokeThickness="0"
+                             StrokeShape="RoundRectangle 30 30 0 0"
+                             BackgroundColor="#ffffff"/>
+                     <VerticalStackLayout Grid.Row="1"
+                                          Padding="30"
+                                          Spacing="10">
+                            <Border VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    HeightRequest="120"
+                                    WidthRequest="120"
+                                    StrokeShape="RoundRectangle 60"
+                                    StrokeThickness="8"
+                                    Stroke="#000"
+                                    Margin="20, 40">
+                                   <Image Source="user"
+                                          Aspect="Fill"
+                                          WidthRequest="100"
+                                          HeightRequest="100"/>
+                            </Border>
+
+                            <Border Padding="15, -15"
+                                    BackgroundColor="#ebebeb"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 60">
+                                   <Entry Placeholder="Telefone"
+                                          MaxLength="9"
+                                          HeightRequest="80"
+                                          FontSize="20"
+                                          Keyboard="Numeric"
+                                          HorizontalTextAlignment="Center"
+                                          FontFamily="MontserratMedium"/>
+                            </Border>
+                            <Border Padding="15, -15"
+                                    BackgroundColor="#ebebeb"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 60">
+                                   <Entry Placeholder="Senha"
+                                          HeightRequest="80"
+                                          IsPassword="True"
+                                          FontSize="20"
+                                          HorizontalTextAlignment="Center"
+                                          FontFamily="MontserratMedium"/>
+                            </Border>
+                            <Border StrokeShape="RoundRectangle 30"
+                                    StrokeThickness="0">
+                                   <Grid HeightRequest="60">
+                                          <Image Source="bg_button"
+                                                 Aspect="Fill"/>
+                                          <Button Text="Entrar"
+                                                  FontSize="22"
+                                                  FontFamily="MontserratMedium"
+                                                  BackgroundColor="Transparent"/>
+                                   </Grid>
+                            </Border>
+                            <Grid Margin="10">
+                                   <Label Text="Criar uma conta"
+                                          HorizontalOptions="Start"
+                                          FontSize="15"
+                                          FontFamily="MontserratMedium"/>
+                                   <Label Text="Recuperar senha"
+                                          HorizontalOptions="End"
+                                          FontSize="15"
+                                          FontFamily="MontserratMedium"/>
+                            </Grid>
+                     </VerticalStackLayout>
+                     <Border Grid.Row="2"
+                             StrokeThickness="0"
+                             BackgroundColor="#058380"/>
+                     <HorizontalStackLayout Grid.Row="2"
+                                            HorizontalOptions="Fill"
+                                            Margin="20">
+                            <Image Source="call_center"
+                                   HeightRequest="30"
+                                   Margin="10, 0"/>
+                            <Label Text="(+244) 929 865 012 / 949 393 436"
+                                   FontSize="15"
+                                   TextColor="#FFF"
+                                   VerticalOptions="Center"
+                                   FontFamily="MontserratMedium"/>
+                     </HorizontalStackLayout>
+              </Grid>
+              <StackLayout BackgroundColor="#454545"
+                           Opacity="0.8"
+                           IsVisible="{Binding Activity}"
+                           VerticalOptions="Fill"
+                           HorizontalOptions="Fill"/>
+              <ActivityIndicator IsRunning="{Binding Activity}"
+                                 Color="#058380"
+                                 WidthRequest="100"/>
+       </Grid>
+
+</ContentPage>

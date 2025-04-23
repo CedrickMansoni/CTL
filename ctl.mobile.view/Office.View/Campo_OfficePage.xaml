@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctl.mobile.view.Office.View.Campo_OfficePage"
+             BackgroundColor="#058380"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
+             x:DataType="vm:Campo_MainPageViewModel"
+             xmlns:data="clr-namespace:ctl.share.DTO_App.Campo;assembly=ctl.share"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <vm:Campo_MainPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Border BackgroundColor="#FFF"
+                HeightRequest="40"
+                WidthRequest="40"
+                Margin="10"
+                HorizontalOptions="Start"
+                StrokeThickness="2"
+                Stroke="#DEDEDE"
+                StrokeShape="RoundRectangle 60">
+            <Image Source="user"
+                   Aspect="Fill"/>
+        </Border>
+
+        <CollectionView x:Name="colecao"
+                        ItemsSource="{Binding Campos}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="data:Listar_Campo_DTO">
+                    <Border>
+                        <Grid>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Grid>
+                    <Label Text="Nenhum campo encontrado na base de dados"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </Grid>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+
+
+        <Border Grid.Row="1"
+                StrokeThickness="0"
+                BackgroundColor="#FFF"/>
+        <Border Grid.Row="1"
+                StrokeShape="RoundRectangle 60"
+                Margin="10"
+                VerticalOptions="End"
+                HorizontalOptions="End">
+            <Grid
+                HeightRequest="60"
+                WidthRequest="60"
+                HorizontalOptions="End"
+                BackgroundColor="#FFF">
+                <Image Source="add"
+                       Aspect="Fill"/>
+                <Button BackgroundColor="Transparent"
+                        Command="{Binding GotoAddCampoCommand}"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</ContentPage>

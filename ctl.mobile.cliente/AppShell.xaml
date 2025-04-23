@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ctl.mobile.cliente.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:client="clr-namespace:ctl.mobile.view.Cliente.View;assembly=ctl.mobile.view"
+    Shell.FlyoutBehavior="Flyout"
+    Title="ctl.mobile.cliente">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate client:Login_ClientPage}"
+        Route="Login_ClientPage" />
+
+</Shell>

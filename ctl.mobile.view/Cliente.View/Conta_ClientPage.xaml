@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctl.mobile.view.Cliente.View.Conta_ClientPage"
+             BackgroundColor="#058380"
+             Shell.BackgroundColor="#058380"
+             Shell.ForegroundColor="#FFF"
+             Shell.TitleColor="#FFF"
+             BackgroundImageSource="bg_image"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Client.ViewModel;assembly=ctl.mobile.viewmodel"
+             x:DataType="vm:Conta_ClientPage_ViewmModel"
+             Title="Conta cliente">
+       <ContentPage.BindingContext>
+              <vm:Conta_ClientPage_ViewmModel/>
+       </ContentPage.BindingContext>
+       <Grid>
+              <Grid RowDefinitions="Auto,Auto,Auto"
+                    IsEnabled="{Binding EnablePage}"
+                    VerticalOptions="Center"
+                    Padding="20">
+
+                     <Border Grid.RowSpan="2"
+                             Grid.Row="1"
+                             StrokeThickness="0"
+                             StrokeShape="RoundRectangle 30"
+                             BackgroundColor="#ffffff"/>
+                     <VerticalStackLayout Grid.Row="1"
+                                          Padding="30"
+                                          Spacing="10">
+                            <Border VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    StrokeShape="RoundRectangle 60"
+                                    StrokeThickness="3"
+                                    Stroke="#000"
+                                    Margin="20, 20">
+                                   <Image Source="user"
+                                          Aspect="Fill"
+                                          WidthRequest="80"
+                                          HeightRequest="80"/>
+                            </Border>
+
+                            <Border Padding="15, -15"
+                                    BackgroundColor="#ebebeb"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 60">
+                                   <Entry Placeholder="Nome"
+                                          HeightRequest="80"
+                                          FontSize="20"
+                                          HorizontalTextAlignment="Center"
+                                          FontFamily="MontserratMedium"
+                                          Text="{Binding Usuario.Nome}"/>
+                            </Border>
+
+                            <Border Padding="15, -15"
+                                    BackgroundColor="#ebebeb"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 60">
+                                   <Entry Placeholder="Telefone"
+                                          MaxLength="9"
+                                          HeightRequest="80"
+                                          FontSize="20"
+                                          Keyboard="Numeric"
+                                          HorizontalTextAlignment="Center"
+                                          FontFamily="MontserratMedium"
+                                          Text="{Binding Usuario.Telefone}"/>
+                            </Border>
+
+                            <Border Padding="15, -15"
+                                    BackgroundColor="#ebebeb"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 60">
+                                   <Entry Placeholder="Senha"
+                                          HeightRequest="80"
+                                          IsPassword="True"
+                                          FontSize="20"
+                                          HorizontalTextAlignment="Center"
+                                          FontFamily="MontserratMedium"
+                                          Text="{Binding Usuario.Senha}"/>
+                            </Border>
+
+                            <Border StrokeShape="RoundRectangle 30"
+                                    StrokeThickness="0">
+                                   <Grid HeightRequest="50">
+                                          <Image Source="bg_button"
+                                                 Aspect="Fill"/>
+                                          <Button Text="Entrar"
+                                                  FontSize="22"
+                                                  FontFamily="MontserratMedium"
+                                                  BackgroundColor="Transparent"
+                                                  Command="{Binding CadastrarCommand}"/>
+                                   </Grid>
+                            </Border>
+
+                     </VerticalStackLayout>
+                     <Border Grid.Row="2"
+                             StrokeThickness="0"
+                             BackgroundColor="#058380"/>
+
+              </Grid>
+              <StackLayout BackgroundColor="#454545"
+                           Opacity="0.8"
+                           IsVisible="{Binding Activity}"
+                           VerticalOptions="Fill"
+                           HorizontalOptions="Fill"/>
+              <ActivityIndicator IsRunning="{Binding Activity}"
+                                 Color="#058380"
+                                 WidthRequest="100"/>
+       </Grid>
+
+</ContentPage>

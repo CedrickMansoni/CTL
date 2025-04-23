@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ctl.mobile.office.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:office="clr-namespace:ctl.mobile.view.Office.View;assembly=ctl.mobile.view"
+    Shell.FlyoutBehavior="Disabled"
+    Title="ctl.mobile.office">
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate office:Login_OfficePage}"
+        Route="Login_MainPage"/>
+
+
+    <TabBar Shell.TabBarBackgroundColor="#058380"
+            Shell.TabBarForegroundColor="#FFF"
+            Shell.TabBarTitleColor="#FFF"
+            Shell.TabBarDisabledColor="#e1e5e4">
+        <Tab Title="Home"
+             Icon="house.png">
+            <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate office:Home_OfficeMainPage}"
+                Route="Home_OfficePage"/>
+        </Tab>
+        <Tab Title="Campo"
+             Icon="blocks.png">
+            <ShellContent
+                Title="Campos"
+                ContentTemplate="{DataTemplate office:Campo_OfficePage}"
+                Route="Campo_OfficePage"/>
+        </Tab>
+        <Tab Title="Reservas"
+             Icon="calender.png">
+            <ShellContent
+                Title="Reservas"
+                ContentTemplate="{DataTemplate office:Reserva_OfficePage}"
+                Route="Reserva_OfficePage"/>
+        </Tab>
+
+    </TabBar>
+
+</Shell>

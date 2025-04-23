@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctl.mobile.view.Office.View.Reserva_OfficePage"
+             BackgroundColor="#058380"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Border BackgroundColor="#FFF"
+                HeightRequest="40"
+                WidthRequest="40"
+                Margin="10"
+                HorizontalOptions="Start"
+                StrokeThickness="2"
+                Stroke="#DEDEDE"
+                StrokeShape="RoundRectangle 60">
+            <Image Source="user"
+                    Aspect="Fill"/>
+        </Border>
+        
+
+
+
+
+        <Border Grid.Row="1" StrokeThickness="0" BackgroundColor="#FFF"/>
+        <Border Grid.Row="1"
+                StrokeShape="RoundRectangle 60"                
+                Margin="10"
+                VerticalOptions="End"
+                HorizontalOptions="End">
+            <Grid
+                HeightRequest="60"
+                WidthRequest="60"
+                HorizontalOptions="End"
+                BackgroundColor="#FFF">
+                <Image Source="add"
+                       Aspect="Fill"/>
+                <Button BackgroundColor="Transparent"/>
+            </Grid>
+        </Border>
+        
+    </Grid>
+</ContentPage>
