@@ -2,14 +2,71 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ctl.mobile.view.Office.View.Campo_OfficePageAdd"
-             Title="Adicionar campo" 
+             Title="Adicionar campo"
              BackgroundColor="#058380"
              xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
+             Shell.BackgroundColor="#058380"
+             Shell.ForegroundColor="#FFF"
+             Shell.TitleColor="#FFF"
              x:DataType="vm:Campo_AddViewModel">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ContentPage.BindingContext>
+        <vm:Campo_AddViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid RowDefinitions="Auto, Auto, *">
+            <Image Source="bg_image"
+                   Grid.RowSpan="2"/>
+            <Border Grid.Row="1"
+                    Grid.RowSpan="2"
+                    StrokeThickness="0"
+                    BackgroundColor="#FFF"
+                    Padding="25"
+                    StrokeShape="RoundRectangle 40 40 0 0">
+                <Grid RowDefinitions="*, Auto, Auto,Auto, *"
+                      RowSpacing="10">
+                    <Image Source="quadra_on"
+                            RotationX="40"/>
+                    <Border Grid.Row="1"
+                            BackgroundColor="#f2f4f5"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 40"
+                            Padding="15,-15">
+                        <Entry Placeholder="Descrição do campo"
+                               HeightRequest="75"
+                               FontSize="22"
+                               Text="{Binding Campo.Nome}"/>
+                    </Border>
+                    <Border Grid.Row="2"
+                            BackgroundColor="#f2f4f5"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 40"
+                            Padding="15,-15">
+                        <Entry Placeholder="Preço do campo por hora"
+                               HeightRequest="75"
+                               Keyboard="Numeric"
+                               FontSize="22"
+                               Text="{Binding Campo.Preco}"/>
+                    </Border>
+                    <Border Grid.Row="3"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            HeightRequest="55">
+                        <Grid>
+                            <Image Source="bg_button"
+                                   Aspect="Fill"/>
+                            <Button BackgroundColor="Transparent"
+                                    Text="Cadastrar campo"
+                                    FontSize="20"
+                                    FontFamily="MontserratMedium"
+                                    Command="{Binding AddCampoCommand}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+
+
 </ContentPage>

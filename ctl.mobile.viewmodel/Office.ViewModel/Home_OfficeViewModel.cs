@@ -32,8 +32,8 @@ public class Home_OfficeViewModel : BindableObject
         }
     }
 
-    private ObservableCollection<Noticia_DTO>? noticias = [];
-    public ObservableCollection<Noticia_DTO>? Noticias
+    private ObservableCollection<Noticia_DTO> noticias = [];
+    public ObservableCollection<Noticia_DTO> Noticias
     {
         get => noticias;
         set
@@ -48,8 +48,26 @@ public class Home_OfficeViewModel : BindableObject
         var response = await client.GetAsync("listar/noticia");
         if (response.IsSuccessStatusCode)
         {
-            using var stream = await response.Content.ReadAsStreamAsync();
-            Noticias = JsonSerializer.Deserialize<ObservableCollection<Noticia_DTO>>(stream, options);
+            if (response.IsSuccessStatusCode)
+        {
+            using var json = await response.Content.ReadAsStreamAsync();
+
+            var a = JsonSerializer.Deserialize<ObservableCollection<Noticia_DTO>>(json, options);
+            if (a == null) return;
+
+            if (Noticias.Count == 0)
+            {
+                Noticias = a;
+                return;
+            }
+
+            // Adiciona apenas os que ainda não estão em Campos
+            var novasNoticias = a.Except(Noticias, new ListarNoticiaDtoComparer()).ToList();
+            foreach (var n in novasNoticias)
+            {
+                Noticias.Add(n);
+            }
+        }
         }
         else
         {
@@ -63,4 +81,19 @@ public class Home_OfficeViewModel : BindableObject
         await Shell.Current.GoToAsync("Noticia_OfficePage");
     });
 
+}
+
+
+public class ListarNoticiaDtoComparer : IEqualityComparer<Noticia_DTO>
+{
+    public bool Equals(Noticia_DTO? x, Noticia_DTO? y)
+    {
+        if (x is null || y is null) return false;
+        return x.Id == y.Id;
+    }
+
+    public int GetHashCode(Noticia_DTO obj)
+    {
+        return obj.Id.GetHashCode();
+    }
 }

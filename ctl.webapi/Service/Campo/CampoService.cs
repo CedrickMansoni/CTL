@@ -31,6 +31,7 @@ public class CampoService(ICampoRepository repository) : ICampoService
             {
                 Nome = campo.Nome,
                 Estado = "Activo",
+                Preco = campo.Preco
             };
             return await _repository.AddCampo(campoModel);
         }

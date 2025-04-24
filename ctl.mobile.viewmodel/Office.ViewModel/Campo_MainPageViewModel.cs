@@ -20,7 +20,7 @@ public class Campo_MainPageViewModel : BindableObject
         };
     }
 
-    private ObservableCollection<Listar_Campo_DTO> campos = new();
+    private ObservableCollection<Listar_Campo_DTO> campos = [];
     public ObservableCollection<Listar_Campo_DTO> Campos
     {
         get => campos;
@@ -36,8 +36,23 @@ public class Campo_MainPageViewModel : BindableObject
         var response = await client.GetAsync("listar/campo");
         if (response.IsSuccessStatusCode)
         {
-            var json = await response.Content.ReadAsStringAsync();
-            Campos = JsonSerializer.Deserialize<ObservableCollection<Listar_Campo_DTO>>(json, options) ?? [];
+            using var json = await response.Content.ReadAsStreamAsync();
+
+            var a = JsonSerializer.Deserialize<ObservableCollection<Listar_Campo_DTO>>(json, options);
+            if (a == null) return;
+
+            if (Campos.Count == 0)
+            {
+                Campos = a;
+                return;
+            }
+
+            // Adiciona apenas os que ainda não estão em Campos
+            var novosCampos = a.Except(Campos, new ListarCampoDtoComparer()).ToList();
+            foreach (var campo in novosCampos)
+            {
+                Campos.Add(campo);
+            }
         }
     });
 
@@ -45,6 +60,20 @@ public class Campo_MainPageViewModel : BindableObject
     {
         await Shell.Current.GoToAsync("Campo_OfficePageAdd");
     });
-    
+
 }
-     
+
+
+public class ListarCampoDtoComparer : IEqualityComparer<Listar_Campo_DTO>
+{
+    public bool Equals(Listar_Campo_DTO? x, Listar_Campo_DTO? y)
+    {
+        if (x is null || y is null) return false;
+        return x.Id == y.Id;
+    }
+
+    public int GetHashCode(Listar_Campo_DTO obj)
+    {
+        return obj.Id.GetHashCode();
+    }
+}
