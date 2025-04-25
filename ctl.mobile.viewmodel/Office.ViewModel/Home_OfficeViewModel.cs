@@ -49,25 +49,25 @@ public class Home_OfficeViewModel : BindableObject
         if (response.IsSuccessStatusCode)
         {
             if (response.IsSuccessStatusCode)
-        {
-            using var json = await response.Content.ReadAsStreamAsync();
-
-            var a = JsonSerializer.Deserialize<ObservableCollection<Noticia_DTO>>(json, options);
-            if (a == null) return;
-
-            if (Noticias.Count == 0)
             {
-                Noticias = a;
-                return;
-            }
+                using var json = await response.Content.ReadAsStreamAsync();
 
-            // Adiciona apenas os que ainda não estão em Campos
-            var novasNoticias = a.Except(Noticias, new ListarNoticiaDtoComparer()).ToList();
-            foreach (var n in novasNoticias)
-            {
-                Noticias.Add(n);
+                var a = JsonSerializer.Deserialize<ObservableCollection<Noticia_DTO>>(json, options);
+                if (a == null) return;
+
+                if (Noticias.Count == 0)
+                {
+                    Noticias = a;
+                    return;
+                }
+
+                // Adiciona apenas os que ainda não estão em Campos
+                var novasNoticias = a.Except(Noticias, new ListarNoticiaDtoComparer()).ToList();
+                foreach (var n in novasNoticias)
+                {
+                    Noticias.Insert(0, n);
+                }
             }
-        }
         }
         else
         {
@@ -78,7 +78,37 @@ public class Home_OfficeViewModel : BindableObject
 
     public ICommand AdicionarnoticiaCommand => new Command(async () =>
     {
+        ActivityCommand.Execute(null);
         await Shell.Current.GoToAsync("Noticia_OfficePage");
+        ActivityCommand.Execute(null);
+    });
+
+    private bool activity = false;
+    public bool Activity
+    {
+        get => activity;
+        set
+        {
+            activity = value;
+            OnPropertyChanged(nameof(Activity));
+        }
+    }
+
+    private bool enablePage = true;
+    public bool EnablePage
+    {
+        get => enablePage;
+        set
+        {
+            enablePage = value;
+            OnPropertyChanged(nameof(EnablePage));
+        }
+    }
+
+    public ICommand ActivityCommand => new Command(() =>
+    {
+        EnablePage = !EnablePage;
+        Activity = !Activity;
     });
 
 }

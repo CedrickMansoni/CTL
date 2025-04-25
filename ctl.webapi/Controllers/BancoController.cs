@@ -26,10 +26,17 @@ namespace ctl.webapi.Controllers
             {
                 NomeAbreviado = form["nome"]!,
                 Logo = form.Files.GetFile("logo")!,
-                Estado = form["estado"]!
+                Estado = form["estado"]!                
             };
 
-            var response = await _service.AddBancoAsync(banco);
+            var conta = new Conta_DTO{
+                NumeroConta = form["conta"]!,
+                IBAN = form["iban"]!
+            };
+            
+
+
+            var response = await _service.AddBancoAsync(banco, conta);
             return response.Contains("sucesso") ? Ok(response) : BadRequest(response);
         }
 

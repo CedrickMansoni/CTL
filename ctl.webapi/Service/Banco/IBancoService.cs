@@ -5,7 +5,7 @@ namespace ctl.webapi.Service.Banco;
 
 public interface IBancoService
 {
-     Task<string> AddBancoAsync(Banco_DTO banco);
+     Task<string> AddBancoAsync(Banco_DTO banco, Conta_DTO conta);
     Task<string> UpdateBancoAsync(Banco_DTO banco);
     Task<string> DeleteBancoAsync(int id);
     Task<Banco_Response_DTO?> GetBancoByIdAsync(int id);

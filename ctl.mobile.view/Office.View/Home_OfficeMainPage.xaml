@@ -13,77 +13,88 @@
         <vm:Home_OfficeViewModel/>
     </ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto,*,Auto">
-        <Border BackgroundColor="#FFF"
-                HeightRequest="40"
-                WidthRequest="40"
-                Margin="10"
-                HorizontalOptions="Start"
-                StrokeThickness="2"
-                Stroke="#DEDEDE"
-                StrokeShape="RoundRectangle 60">
-            <Image Source="user"
-                   Aspect="Fill"/>
-        </Border>
-
-
-        <CollectionView ItemsSource="{Binding Noticias}"
-                        SelectionMode="None"
-                        x:Name="colecao"
-                        Grid.Row="1"
-                        BackgroundColor="#FFF"
-                        VerticalOptions="Fill">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="data:Noticia_DTO">
-                    <Grid RowDefinitions="*,Auto"
-                          Margin="0,0,0,10">
-                        <Grid Grid.Row="0">
-                            <Image Source="gallery"/>
-                            <Image Source="{Binding Imagem}"
-                                   Aspect="Fill"/>
-                        </Grid>
-                        <StackLayout Padding="15,0"
-                                     Grid.Row="1">
-                            <Label Text="{Binding Titulo}"
-                                   FontSize="Title"
-                                   MaxLines="2"
-                                   FontFamily="MontserratMedium"/>
-                            <Label Text="{Binding Materia, StringFormat='{0}'}"
-                                   FontSize="Medium"
-                                   MaxLines="3"
-                                   FontFamily="MontserratMedium"/>
-                        </StackLayout>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.EmptyView>
-                <Grid>
-                    <Label Text="Sem notícias"
-                           FontSize="30"
-                           FontFamily="MontserratBlack"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center"/>
-                </Grid>
-            </CollectionView.EmptyView>
-        </CollectionView>
-
-
-        <Border Grid.Row="1"
-                StrokeShape="RoundRectangle 60"
-                Margin="10"
-                VerticalOptions="End"
-                HorizontalOptions="End">
-            <Grid
-                HeightRequest="60"
-                WidthRequest="60"
-                HorizontalOptions="End"
-                BackgroundColor="#FFF">
-                <Image Source="add"
+    <Grid>
+        <Grid RowDefinitions="Auto,*,Auto"
+              IsEnabled="{Binding EnablePage}">
+            <Border BackgroundColor="#FFF"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    Margin="10"
+                    HorizontalOptions="Start"
+                    StrokeThickness="2"
+                    Stroke="#DEDEDE"
+                    StrokeShape="RoundRectangle 60">
+                <Image Source="user"
                        Aspect="Fill"/>
-                <Button BackgroundColor="Transparent"
-                        Command="{Binding AdicionarnoticiaCommand}"/>
-            </Grid>
-        </Border>
+            </Border>
 
+
+            <CollectionView ItemsSource="{Binding Noticias}"
+                            SelectionMode="None"
+                            x:Name="colecao"
+                            Grid.Row="1"
+                            BackgroundColor="#FFF"
+                            VerticalOptions="Fill">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="data:Noticia_DTO">
+                        <Grid RowDefinitions="*,Auto"
+                              Margin="0,0,0,10">
+                            <Grid Grid.Row="0">
+                                <Image Source="gallery"/>
+                                <Image Source="{Binding Imagem}"
+                                       Aspect="Fill"/>
+                            </Grid>
+                            <StackLayout Padding="15,0"
+                                         Grid.Row="1">
+                                <Label Text="{Binding Titulo, StringFormat='{0}'}"
+                                       FontSize="Title"
+                                       MaxLines="2"
+                                       FontFamily="MontserratMedium"/>
+                                <Label Text="{Binding Materia, StringFormat='{0}'}"
+                                       FontSize="Medium"
+                                       MaxLines="3"
+                                       FontFamily="MontserratMedium"/>
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Grid>
+                        <Label Text="Sem notícias"
+                               FontSize="30"
+                               FontFamily="MontserratBlack"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
+                    </Grid>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+
+            <Border Grid.Row="1"
+                    StrokeShape="RoundRectangle 60"
+                    Margin="10"
+                    VerticalOptions="End"
+                    HorizontalOptions="End">
+                <Grid
+                    HeightRequest="60"
+                    WidthRequest="60"
+                    HorizontalOptions="End"
+                    BackgroundColor="#FFF">
+                    <Image Source="add"
+                           Aspect="Fill"/>
+                    <Button BackgroundColor="Transparent"
+                            Command="{Binding AdicionarnoticiaCommand}"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <StackLayout BackgroundColor="#000"
+                     Opacity="0.6"
+                     IsVisible="{Binding Activity}"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill"/>
+        <Image Source="carregar"
+               HeightRequest="100"
+               IsVisible="{Binding Activity}"
+               IsAnimationPlaying="{Binding Activity}"/>
     </Grid>
 </ContentPage>

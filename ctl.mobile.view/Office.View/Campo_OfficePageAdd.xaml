@@ -15,7 +15,8 @@
     </ContentPage.BindingContext>
 
     <Grid>
-        <Grid RowDefinitions="Auto, Auto, *">
+        <Grid RowDefinitions="Auto, Auto, *"
+              IsEnabled="{Binding EnablePage}">
             <Image Source="bg_image"
                    Grid.RowSpan="2"/>
             <Border Grid.Row="1"
@@ -27,7 +28,7 @@
                 <Grid RowDefinitions="*, Auto, Auto,Auto, *"
                       RowSpacing="10">
                     <Image Source="quadra_on"
-                            RotationX="40"/>
+                           RotationX="40"/>
                     <Border Grid.Row="1"
                             BackgroundColor="#f2f4f5"
                             StrokeThickness="0"
@@ -66,6 +67,15 @@
                 </Grid>
             </Border>
         </Grid>
+        <StackLayout BackgroundColor="#000"
+                     Opacity="0.8"
+                     IsVisible="{Binding Activity}"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill"/>
+        <Image Source="carregar"
+            IsVisible="{Binding Activity}"
+               IsAnimationPlaying="{Binding Activity}"
+               WidthRequest="100"/>
     </Grid>
 
 

@@ -6,7 +6,7 @@ namespace ctl.webapi.Repository.Banco;
 
 public interface IBancoRepository
 {
-    Task<string> AddBancoAsync(BancoModel banco);
+    Task<string> AddBancoAsync(BancoModel banco, ContaModel conta);
     Task<string> UpdateBancoAsync(BancoModel banco);
     Task<string> DeleteBancoAsync(int id);
     Task<BancoModel?> GetBancoByIdAsync(int id);

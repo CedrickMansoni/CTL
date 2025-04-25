@@ -3,31 +3,31 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Windows.Input;
 using ctl.share.Dominio_App;
-using ctl.share.DTO_App.Noticia;
+using ctl.share.DTO_App.Banco;
 
 namespace ctl.mobile.viewmodel.Office.ViewModel;
 
-public class NoticiaAdd_OfficeViewModel : BindableObject
+public class Banco_AddViewModel : BindableObject
 {
     HttpClient client;
     JsonSerializerOptions options;
-    public NoticiaAdd_OfficeViewModel()
+    public Banco_AddViewModel()
     {
         client = new HttpClient() { BaseAddress = new Uri($"{Dominio.URLApp}") };
         options = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
         };
     }
 
-    private Noticia_DTO noticia = new();
-    public Noticia_DTO Noticia
+    private Banco_DTO banco = new();
+    public Banco_DTO Banco
     {
-        get { return noticia; }
+        get => banco;
         set
         {
-            noticia = value;
-            OnPropertyChanged(nameof(Noticia));
+            banco = value;
+            OnPropertyChanged(nameof(Banco));
         }
     }
 
@@ -65,52 +65,47 @@ public class NoticiaAdd_OfficeViewModel : BindableObject
         }
     }
 
-    public ICommand CadastrarNoticiaCommand => new Command(async () =>
+    public ICommand CadastrarBancoCommand => new Command(async () =>
     {
-        if (string.IsNullOrEmpty(Noticia.Titulo))
+        if (string.IsNullOrEmpty(Banco.NomeAbreviado))
         {
-            await Shell.Current.DisplayAlert("Atenção", "Preencha o campo Titulo", "OK");
-            return;
-        }
-        if (string.IsNullOrEmpty(Noticia.Materia))
-        {
-            await Shell.Current.DisplayAlert("Atenção", "Preencha o campo Descrição", "OK");
+            await Shell.Current.DisplayAlert("Erro", "Preencha todos os campos", "OK");
             return;
         }
         if (string.IsNullOrEmpty(CaminhoImagem))
         {
-            await Shell.Current.DisplayAlert("Atenção", "Selecione uma imagem", "OK");
+            await Shell.Current.DisplayAlert("Erro", "Selecione uma imagem", "OK");
             return;
         }
+
         ActivityCommand.Execute(null);
-        var idUsuario = await SecureStorage.GetAsync("usuarioId");
-        noticia.IdUsuario = Convert.ToInt32(idUsuario);
         var formData = new MultipartFormDataContent
         {
-            { new StringContent(Noticia.IdUsuario.ToString()), "idUsuario" },
-            { new StringContent(Noticia.Titulo), "titulo" },
-            { new StringContent(Noticia.Materia), "materia" },
+            { new StringContent(Banco.NomeAbreviado.ToString()), "nome" },
+            { new StringContent(Banco.Estado.ToString()), "estado" },
+            { new StringContent(Banco.Conta!.ToString()), "conta" },
+            { new StringContent(Banco.IBAN!.ToString()), "iban" },
         };
 
-        AdicionarArquivoAoFormData(formData, CaminhoImagem, "imagem");
+        AdicionarArquivoAoFormData(formData, CaminhoImagem, "logo");
 
-        var response = await client.PostAsync("adicionar/noticia", formData);
+        var response = await client.PostAsync("adicionar/banco", formData);
         if (response.IsSuccessStatusCode)
         {
             ActivityCommand.Execute(null);
-            await Shell.Current.DisplayAlert("Sucesso", "Noticia cadastrada com sucesso", "OK");
+            await Shell.Current.DisplayAlert("Sucesso", "Banco cadastrado com sucesso", "OK");
             await Shell.Current.GoToAsync("..");
-        }else
+        }
+        else
         {
             ActivityCommand.Execute(null);
-            await Shell.Current.DisplayAlert("Erro", "Erro ao cadastrar noticia", "OK");
+            await Shell.Current.DisplayAlert("Erro", "Erro ao cadastrar banco", "OK");
         }
     });
-
-
+    
     public ICommand AbrirCameraCommand => new Command(async () =>
     {
-        bool response = await Shell.Current.DisplayAlert("...", "Como pretende obter a imagem do produto?", "Camera", "Galeria");
+        bool response = await Shell.Current.DisplayAlert("...", "Como pretende obter a logo do banco?", "Camera", "Galeria");
         var doc = response ?
             await MediaPicker.CapturePhotoAsync() :
             await MediaPicker.PickPhotoAsync();
@@ -183,8 +178,4 @@ public class NoticiaAdd_OfficeViewModel : BindableObject
         EnablePage = !EnablePage;
         Activity = !Activity;
     });
-
-
 }
-
-

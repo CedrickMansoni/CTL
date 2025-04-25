@@ -106,14 +106,15 @@
                                    FontFamily="MontserratMedium"/>
                      </HorizontalStackLayout>
               </Grid>
-              <StackLayout BackgroundColor="#454545"
-                           Opacity="0.8"
+              <StackLayout BackgroundColor="#000"
+                           Opacity="0.6"
                            IsVisible="{Binding Activity}"
                            VerticalOptions="Fill"
                            HorizontalOptions="Fill"/>
-              <ActivityIndicator IsRunning="{Binding Activity}"
-                                 Color="#058380"
-                                 WidthRequest="100"/>
+              <Image Source="carregar"
+                     HeightRequest="100"
+                     IsVisible="{Binding Activity}"
+                     IsAnimationPlaying="{Binding Activity}"/>
        </Grid>
 
 </ContentPage>

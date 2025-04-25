@@ -85,7 +85,7 @@
                                    <Grid HeightRequest="50">
                                           <Image Source="bg_button"
                                                  Aspect="Fill"/>
-                                          <Button Text="Entrar"
+                                          <Button Text="Criar"
                                                   FontSize="22"
                                                   FontFamily="MontserratMedium"
                                                   BackgroundColor="Transparent"

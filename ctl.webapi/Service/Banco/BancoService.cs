@@ -13,10 +13,10 @@ public class BancoService(IBancoRepository repository, IArquivoService arquivo, 
     private readonly IArquivoService _arquivo = arquivo;
     private readonly IConfiguration _configuration = configuration;
 
-    public async Task<string> AddBancoAsync(Banco_DTO banco)
+    public async Task<string> AddBancoAsync(Banco_DTO banco, Conta_DTO conta)
     {
-        if (banco == null)
-            throw new ArgumentNullException(nameof(banco));
+        if (banco == null) return "Banco inválido";
+        if (conta == null) return "Conta inválido";
 
         var result = await _repository.AddBancoAsync(new BancoModel
         {
@@ -24,6 +24,10 @@ public class BancoService(IBancoRepository repository, IArquivoService arquivo, 
             Nome = banco.NomeAbreviado,
             Logo = banco.Logo!.FileName,
             Estado = banco.Estado
+        }, new ContaModel
+        {
+            Numero = conta.NumeroConta!,
+            Iban = conta.IBAN!
         });
 
         if (result.Contains("sucesso"))
@@ -49,14 +53,7 @@ public class BancoService(IBancoRepository repository, IArquivoService arquivo, 
 
     public async Task<IEnumerable<Banco_Response_DTO>> GetAllBancosAsync()
     {
-        var bancos = await _repository.GetAllBancosAsync();
-        return bancos.Select(b => new Banco_Response_DTO
-        {
-            Id = b.Id,
-            NomeAbreviado = b.NomeAbreviado,
-            Logo = $"{Dominio.URLApp}/images/Banco/{b.Logo}", 
-            Estado = b.Estado
-        });
+       return await _repository.GetAllBancosAsync();       
     }
 
     public async Task<Banco_Response_DTO?> GetBancoByIdAsync(int id)

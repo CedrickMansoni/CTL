@@ -10,6 +10,39 @@
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate client:Login_ClientPage}"
-        Route="Login_ClientPage" />
+        Route="Login_ClientPage"/>
 
+    <TabBar Shell.TabBarBackgroundColor="#058380"
+            Shell.TabBarForegroundColor="#FFF"
+            Shell.TabBarTitleColor="#FFF"
+            Shell.TabBarDisabledColor="#e1e5e4">
+        <Tab Title="Home"
+             Icon="house.png">
+            <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate client:Home_ClientMainPage}"
+                Route="Home_ClientPage"/>
+        </Tab>
+        <Tab Title="Campo"
+             Icon="blocks.png">
+            <ShellContent
+                Title="Campos"
+                ContentTemplate="{DataTemplate client:Campo_ClientPage}"
+                Route="Campo_ClientPage"/>
+        </Tab>
+        <Tab Title="Reservas"
+             Icon="calender.png">
+            <ShellContent
+                Title="Reservas"
+                ContentTemplate="{DataTemplate client:Reserva_ClientPage}"
+                Route="Reserva_ClientPage"/>
+        </Tab>
+        <Tab Title="Bancos"
+             Icon="banco.png">
+            <ShellContent
+                Title="Bancos"
+                ContentTemplate="{DataTemplate client:Banco_ClientPage}"
+                Route="Banco_ClientPage"/>
+        </Tab>
+    </TabBar>
 </Shell>

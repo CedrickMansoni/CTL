@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ctl.mobile.view.Office.View.Campo_OfficePage"
+             x:Class="ctl.mobile.view.Office.View.Banco_OfficePage"
              BackgroundColor="#058380"
+             Shell.BackgroundColor="#058380"
+             Shell.ForegroundColor="#FFF"
+             Shell.TitleColor="#FFF"
+             Shell.NavBarIsVisible="False"
              xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
-             x:DataType="vm:Campo_MainPageViewModel"
-             xmlns:data="clr-namespace:ctl.share.DTO_App.Campo;assembly=ctl.share"
-             Shell.NavBarIsVisible="False">
+             xmlns:data="clr-namespace:ctl.share.DTO_App.Banco;assembly=ctl.share"
+             x:DataType="vm:Banco_MainPageViewModel">
 
     <ContentPage.BindingContext>
-        <vm:Campo_MainPageViewModel/>
+        <vm:Banco_MainPageViewModel/>
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto,*,Auto">
@@ -30,12 +33,12 @@
                 BackgroundColor="#FFF"/>
 
         <CollectionView x:Name="colecao"
-                        ItemsSource="{Binding Campos}"
+                        ItemsSource="{Binding Bancos}"
                         SelectionMode="None"
                         Margin="10"
                         Grid.Row="1">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="data:Listar_Campo_DTO">
+                <DataTemplate x:DataType="data:Banco_Response_DTO">
                     <StackLayout Padding="10, 5">
                         <Border BackgroundColor="#f2f4f5"
                                 Padding="0, 10"
@@ -43,30 +46,30 @@
                             <Grid RowDefinitions="*,*,*"
                                   ColumnDefinitions="*,Auto,3*"
                                   ColumnSpacing="10">
-                                <Image Source="quadra_on"
-                                       Grid.RowSpan="2"
+                                <Image Source="{Binding Logo}"
+                                       Grid.RowSpan="3"
                                        HorizontalOptions="Start"
                                        Margin="10"/>
                                 <Border Grid.Column="1"
                                         Grid.RowSpan="3"/>
-                                <Label Text="{Binding Nome, StringFormat= CAMPO: '{0}'}"
+                                <Label Text="{Binding NomeAbreviado}"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Start"
-                                       FontSize="20"
+                                       FontSize="18"
                                        Grid.Row="0"
                                        Grid.Column="2"
                                        FontFamily="MontserratMedium"/>
-                                <Label Text="{Binding Preco, StringFormat= PREÇO: '{0}'}"
+                                <Label Text="{Binding Conta, StringFormat= Conta: '{0}'}"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Start"
-                                       FontSize="20"
+                                       FontSize="18"
                                        Grid.Row="1"
                                        Grid.Column="2"
                                        FontFamily="MontserratMedium"/>
-                                <Label Text="{Binding Estado, StringFormat= ESTADO: '{0}'}"
+                                <Label Text="{Binding IBAN, StringFormat= IBAN: '{0}'}"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Start"
-                                       FontSize="20"
+                                       FontSize="18"
                                        Grid.Row="2"
                                        Grid.Column="2"
                                        FontFamily="MontserratMedium"/>
@@ -77,7 +80,7 @@
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
                 <Grid>
-                    <Label Text="Nenhum campo encontrado na base de dados"
+                    <Label Text="Nenhum banco encontrado na base de dados"
                            VerticalOptions="Center"
                            HorizontalOptions="Center"/>
                 </Grid>
@@ -97,7 +100,7 @@
                 <Image Source="add"
                        Aspect="Fill"/>
                 <Button BackgroundColor="Transparent"
-                        Command="{Binding GotoAddCampoCommand}"/>
+                        Command="{Binding GotoAddBancoPageCommand}"/>
             </Grid>
         </Border>
 

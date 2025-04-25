@@ -38,7 +38,13 @@
                 ContentTemplate="{DataTemplate office:Reserva_OfficePage}"
                 Route="Reserva_OfficePage"/>
         </Tab>
-
+         <Tab Title="Bancos"
+             Icon="banco.png">
+            <ShellContent
+                Title="Bancos"
+                ContentTemplate="{DataTemplate office:Banco_OfficePage}"
+                Route="Banco_OfficePage"/>
+        </Tab>
     </TabBar>
 
 </Shell>

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ctl.mobile.view.Office.View.Noticia_OfficePage"
-             Title="Adicionar notícia"
+             x:Class="ctl.mobile.view.Office.View.Banco_OfficePageAdd"
+             Title="Adicionar banco"
              BackgroundColor="#058380"
              Shell.BackgroundColor="#058380"
              Shell.ForegroundColor="#FFF"
              Shell.TitleColor="#FFF"
              xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
-             x:DataType="vm:NoticiaAdd_OfficeViewModel">
+             x:DataType="vm:Banco_AddViewModel">
 
     <ContentPage.BindingContext>
-        <vm:NoticiaAdd_OfficeViewModel/>
+        <vm:Banco_AddViewModel/>
     </ContentPage.BindingContext>
 
     <Grid>
-        <Grid RowDefinitions="Auto,Auto,auto, *" IsEnabled="{Binding EnablePage}">
+        <Grid RowDefinitions="Auto,Auto,auto, *"
+              IsEnabled="{Binding EnablePage}">
             <Image Source="bg_imageplay"
                    Grid.Row="0"
                    Grid.RowSpan="3"
@@ -26,34 +27,57 @@
                     StrokeThickness="0"
                     Padding="30"
                     BackgroundColor="#FFF">
-                <Grid RowDefinitions="Auto, Auto, Auto, Auto"
+                <Grid RowDefinitions="*,Auto, Auto, Auto, Auto,Auto,Auto"
                       RowSpacing="18">
-                    <Border Grid.Row="0"
-                            BackgroundColor="#f2f4f5"
-                            StrokeShape="RoundRectangle 30"
-                            StrokeThickness="0"
-                            Padding="15, -15">
-                        <Entry Placeholder="Título"
-                               HeightRequest="75"
-                               FontFamily="MontserratMedium"
-                               FontSize="20"
-                               Text="{Binding Noticia.Titulo}"/>
+                    <Border VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="80"
+                            WidthRequest="80"
+                            BackgroundColor="#058380"
+                            StrokeShape="RoundRectangle 60">
+                        <Image Source="banco"
+                               HeightRequest="60"
+                               WidthRequest="60"
+                               Aspect="Fill"/>
                     </Border>
-
                     <Border Grid.Row="1"
                             BackgroundColor="#f2f4f5"
                             StrokeShape="RoundRectangle 30"
                             StrokeThickness="0"
-                            Padding="15, 0">
-                        <Editor Placeholder="Título"
-                                HeightRequest="300"
-                                FontFamily="MontserratMedium"
-                                FontSize="20"
-                                Text="{Binding Noticia.Materia}"/>
+                            Padding="15, -15">
+                        <Entry Placeholder="Nome do banco"
+                               HeightRequest="75"
+                               FontFamily="MontserratMedium"
+                               FontSize="20"
+                               Text="{Binding Banco.NomeAbreviado}"/>
+                    </Border>
+
+                    <Border Grid.Row="2"
+                            BackgroundColor="#f2f4f5"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            Padding="15, -15">
+                        <Entry Placeholder="Número da conta"
+                               HeightRequest="75"
+                               FontFamily="MontserratMedium"
+                               FontSize="20"
+                               Text="{Binding Banco.Conta}"/>
+                    </Border>
+
+                    <Border Grid.Row="3"
+                            BackgroundColor="#f2f4f5"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            Padding="15, -15">
+                        <Entry Placeholder="IBAN"
+                               HeightRequest="75"
+                               FontFamily="MontserratMedium"
+                               FontSize="20"
+                               Text="{Binding Banco.IBAN}"/>
                     </Border>
 
                     <Image Source="{Binding ColorFile}"
-                           Grid.Row="2"
+                           Grid.Row="4"
                            HeightRequest="40"
                            HorizontalOptions="Start">
                         <Image.GestureRecognizers>
@@ -61,28 +85,29 @@
                         </Image.GestureRecognizers>
                     </Image>
                     <Label Text="{Binding NomeFile}"
-                           Grid.Row="2"
+                           Grid.Row="4"
                            VerticalOptions="Center"
                            Margin="45, 0"
                            FontFamily="MontserratMedium"
                            FontSize="15"/>
                     <Button Text="Salvar"
-                            Grid.Row="3"
+                            Grid.Row="5"
                             BackgroundColor="#058380"
                             FontFamily="MontserratMedium"
                             FontSize="19"
-                            Command="{Binding CadastrarNoticiaCommand}"/>
+                            Command="{Binding CadastrarBancoCommand}"/>
                 </Grid>
             </Border>
 
         </Grid>
-        <StackLayout BackgroundColor="{Binding Activity}"
-                     Opacity="0.8"
-                     IsVisible="False"
+        <StackLayout IsVisible="{Binding Activity}"
+                     Opacity="0.6"
+                     BackgroundColor="#000"
                      VerticalOptions="Fill"
                      HorizontalOptions="Fill"/>
-        <ActivityIndicator IsRunning="{Binding Activity}"
-                           Color="#058380"
-                           WidthRequest="100"/>
+        <Image Source="carregar"
+               IsAnimationPlaying="{Binding Activity}"
+               IsVisible="{Binding Activity}"
+               WidthRequest="100"/>
     </Grid>
 </ContentPage>

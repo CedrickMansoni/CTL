@@ -9,4 +9,6 @@ public class Banco_DTO
     public string NomeAbreviado { get; set; } = string.Empty;
     public IFormFile? Logo { get; set; }
     public string Estado { get; set; } = "Activo";
+    public string Conta { get; set; } = string.Empty;
+    public string IBAN { get; set; } = string.Empty;
 }

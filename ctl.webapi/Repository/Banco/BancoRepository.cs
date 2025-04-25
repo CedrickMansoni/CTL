@@ -1,4 +1,5 @@
 using System;
+using ctl.share.Dominio_App;
 using ctl.share.DTO_App.Banco;
 using ctl.webapi.Data;
 using ctl.webapi.Models;
@@ -10,8 +11,9 @@ public class BancoRepository(AppDataContext context) : IBancoRepository
 {
     private readonly AppDataContext _context = context;
 
-    public async Task<string> AddBancoAsync(BancoModel banco)
+    public async Task<string> AddBancoAsync(BancoModel banco, ContaModel conta)
     {
+        var transacao = await _context.Database.BeginTransactionAsync();
         try
         {
             var existingBanco = await _context.TabelaBanco
@@ -19,10 +21,16 @@ public class BancoRepository(AppDataContext context) : IBancoRepository
             if (existingBanco != null) return "Banco já existe.";
             await _context.TabelaBanco.AddAsync(banco);
             await _context.SaveChangesAsync();
+
+            conta.IdBanco = banco.Id;
+            await _context.TabelaConta.AddAsync(conta);
+            await _context.SaveChangesAsync(); 
+            transacao.Commit();
             return "Banco adicionado com sucesso.";
         }
         catch (Exception ex)
         {
+            await transacao.RollbackAsync();
             return $"Erro no cadastro do banco: {ex.Message}";
         }
     }
@@ -53,6 +61,7 @@ public class BancoRepository(AppDataContext context) : IBancoRepository
                          NomeAbreviado = b.Nome,
                          Conta = c.Numero,
                          IBAN = c.Iban,
+                         Logo = $"{Dominio.URLApp}images/Banco/{b.Logo}",
                      };
         return await bancos.ToListAsync();
     }
