@@ -57,6 +57,36 @@ public class Banco_MainPageViewModel : BindableObject
         }
     });
 
+    public ICommand CopiarContaOrIbanCommand => new Command<Banco_Response_DTO>(async (dados) =>
+    {
+        var resposta = await Shell.Current.DisplayAlert("Área de transferência", "O que deseja copiar para a área de transferência?", "CONTA", "IBAN");
+        
+        if (resposta)
+        {
+            ContaCopyToClipboardCommand.Execute(dados.Conta);
+        }
+        else
+        {
+            IbanCopyToClipboardCommand.Execute(dados.IBAN);
+        }
+    });
+
+    public ICommand ContaCopyToClipboardCommand => new Command<string>(async (p) =>
+    {
+        if (string.IsNullOrEmpty(p)) return;
+
+        await Clipboard.SetTextAsync(p);
+        await Shell.Current.DisplayAlert("Conta", "Conta bancária copiada para a área de transferência", "OK");
+    });
+
+        public ICommand IbanCopyToClipboardCommand => new Command<string>(async (p) =>
+    {
+        if (string.IsNullOrEmpty(p)) return;
+
+        await Clipboard.SetTextAsync(p);
+        await Shell.Current.DisplayAlert("IBAN", "IBAN copiado para a área de transferência", "OK");
+    });
+
     public ICommand GotoAddBancoPageCommand => new Command(async () =>
     {
         ActivityCommand.Execute(null);

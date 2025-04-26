@@ -74,6 +74,7 @@ public class LoginPage_ViewModel : BindableObject
                 {
                     ActivityCommand.Execute(null);
                     // Navegar para a página inicial ou outra ação
+                    await Shell.Current.GoToAsync("//Home_ClientPage");
                 }
             }
         }

@@ -2,11 +2,101 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ctl.mobile.view.Cliente.View.Banco_ClientPage"
-             Title="Banco_ClientPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             BackgroundColor="#058380"
+             Shell.BackgroundColor="#058380"
+             Shell.ForegroundColor="#FFF"
+             Shell.TitleColor="#FFF"
+             Shell.NavBarIsVisible="False"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
+             xmlns:data="clr-namespace:ctl.share.DTO_App.Banco;assembly=ctl.share"
+             x:DataType="vm:Banco_MainPageViewModel">
+
+    <ContentPage.BindingContext>
+        <vm:Banco_MainPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Border BackgroundColor="#FFF"
+                HeightRequest="40"
+                WidthRequest="40"
+                Margin="10"
+                HorizontalOptions="Start"
+                StrokeThickness="2"
+                Stroke="#DEDEDE"
+                StrokeShape="RoundRectangle 60">
+            <Image Source="user"
+                   Aspect="Fill"/>
+        </Border>
+
+        <Border Grid.Row="1"
+                StrokeThickness="0"
+                BackgroundColor="#FFF"/>
+
+        <CollectionView x:Name="colecao"
+                        ItemsSource="{Binding Bancos}"
+                        SelectionMode="None"
+                        Margin="10"
+                        Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="data:Banco_Response_DTO">
+                    <StackLayout Padding="10, 5">
+                        <Border BackgroundColor="#f2f4f5"
+                                Padding="0, 10"
+                                StrokeShape="RoundRectangle 10">
+                            <Grid RowDefinitions="*,*,*"
+                                  ColumnDefinitions="*,Auto,3*"
+                                  ColumnSpacing="10">
+                                <Image Source="{Binding Logo}"
+                                       Grid.RowSpan="3"
+                                       HorizontalOptions="Start"
+                                       Margin="10">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.CopiarContaOrIbanCommand, Source={x:Reference Name=colecao}}" CommandParameter="{Binding .}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <Border Grid.Column="1"
+                                        Grid.RowSpan="3"/>
+                                <Label Text="{Binding NomeAbreviado}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="18"
+                                       Grid.Row="0"
+                                       Grid.Column="2"
+                                       FontFamily="MontserratMedium"/>
+                                <Label Text="{Binding Conta, StringFormat= Conta: '{0}'}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="18"
+                                       Grid.Row="1"
+                                       Grid.Column="2"
+                                       FontFamily="MontserratMedium"/>
+                                <Label Text="{Binding IBAN, StringFormat= IBAN: '{0}'}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="18"
+                                       Grid.Row="2"
+                                       Grid.Column="2"
+                                       FontFamily="MontserratMedium"/>
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Grid>
+                    <Label Text="Nenhum banco encontrado na base de dados"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </Grid>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Border Grid.Row="1"
+                StrokeShape="RoundRectangle 60"
+                Margin="10"
+                VerticalOptions="End"
+                HorizontalOptions="End">
+        </Border>
+
+    </Grid>
 </ContentPage>

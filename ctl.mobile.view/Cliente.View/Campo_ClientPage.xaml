@@ -2,11 +2,90 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ctl.mobile.view.Cliente.View.Campo_ClientPage"
-             Title="Campo_ClientPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             BackgroundColor="#058380"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
+             x:DataType="vm:Campo_MainPageViewModel"
+             xmlns:data="clr-namespace:ctl.share.DTO_App.Campo;assembly=ctl.share"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <vm:Campo_MainPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Border BackgroundColor="#FFF"
+                HeightRequest="40"
+                WidthRequest="40"
+                Margin="10"
+                HorizontalOptions="Start"
+                StrokeThickness="2"
+                Stroke="#DEDEDE"
+                StrokeShape="RoundRectangle 60">
+            <Image Source="user"
+                   Aspect="Fill"/>
+        </Border>
+
+        <Border Grid.Row="1"
+                StrokeThickness="0"
+                BackgroundColor="#FFF"/>
+
+        <CollectionView x:Name="colecao"
+                        ItemsSource="{Binding Campos}"
+                        SelectionMode="None"
+                        Margin="10"
+                        Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="data:Listar_Campo_DTO">
+                    <StackLayout Padding="10, 5">
+                        <Border BackgroundColor="#f2f4f5"
+                                Padding="0, 10" StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10">
+                            <Grid RowDefinitions="*,*,*"
+                                  ColumnDefinitions="*,Auto,3*"
+                                  ColumnSpacing="10">
+                                <Image Source="quadra_on"
+                                       Grid.RowSpan="3"
+                                       HorizontalOptions="Start"
+                                       Margin="10"/>
+                                <Border Grid.Column="1"
+                                        Grid.RowSpan="3"/>
+                                <Label Text="{Binding Nome, StringFormat= CAMPO: '{0}'}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="20"
+                                       Grid.Row="0"
+                                       Grid.Column="2"
+                                       FontFamily="MontserratMedium"
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding Preco, StringFormat= PREÇO: {0:N2} AOA}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="20"
+                                       Grid.Row="1"
+                                       Grid.Column="2"
+                                       FontFamily="MontserratMedium"/>
+                                <Label Text="{Binding Estado, StringFormat= ESTADO: '{0}'}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="20"
+                                       Grid.Row="2"
+                                       Grid.Column="2"
+                                       FontFamily="MontserratMedium"/>
+                            </Grid>
+                        </Border>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.GotoAgendamentoCommand, Source={x:Reference Name=colecao}}" CommandParameter="{Binding .}"/>
+                        </StackLayout.GestureRecognizers>                        
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Grid>
+                    <Label Text="Nenhum campo encontrado na base de dados"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </Grid>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
 </ContentPage>

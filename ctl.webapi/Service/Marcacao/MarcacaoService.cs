@@ -81,9 +81,9 @@ public class MarcacaoService(IMarcacaoRepository repository, IConfiguration conf
         return result;
     }
 
-    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int skip = 0, int take = 30)
+    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int idCampo, int skip = 0, int take = 30)
     {
-        var result = await _repository.ListarMarcacao(skip, take);
+        var result = await _repository.ListarMarcacao(idCampo, skip, take);
         return result.Select(m => new Listar_Marcacao_DTO
         {
             Id = m.Id,

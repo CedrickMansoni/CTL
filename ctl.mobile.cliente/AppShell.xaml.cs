@@ -14,5 +14,6 @@ public partial class AppShell : Shell
 	{
 		Routing.RegisterRoute(nameof(Conta_ClientPage), typeof(Conta_ClientPage));
 		Routing.RegisterRoute(nameof(Senha_ClientPage), typeof(Senha_ClientPage));
+		Routing.RegisterRoute(nameof(Campo_AgendamentoPage), typeof(Campo_AgendamentoPage));
 	}
 }

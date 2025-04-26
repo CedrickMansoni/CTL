@@ -2,11 +2,81 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ctl.mobile.view.Cliente.View.Home_ClientMainPage"
-             Title="Home_ClientMainPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
+             xmlns:data="clr-namespace:ctl.share.DTO_App.Noticia;assembly=ctl.share"
+             BackgroundColor="#058380"
+             Shell.NavBarIsVisible="False"
+             x:DataType="vm:Home_OfficeViewModel">
+
+    <ContentPage.BindingContext>
+        <vm:Home_OfficeViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid RowDefinitions="Auto,*,Auto"
+              IsEnabled="{Binding EnablePage}">
+            <Border BackgroundColor="#FFF"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    Margin="10"
+                    HorizontalOptions="Start"
+                    StrokeThickness="2"
+                    Stroke="#DEDEDE"
+                    StrokeShape="RoundRectangle 60">
+                <Image Source="user"
+                       Aspect="Fill"/>
+            </Border>
+
+            <CollectionView ItemsSource="{Binding Noticias}"
+                            SelectionMode="None"
+                            x:Name="colecao"
+                            Grid.Row="1"
+                            BackgroundColor="#FFF"
+                            VerticalOptions="Fill">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="data:Noticia_DTO">
+                        <Grid RowDefinitions="*,Auto"
+                              Margin="0,0,0,10">
+                            <Grid Grid.Row="0">
+                                <Image Source="gallery"/>
+                                <Image Source="{Binding Imagem}"
+                                       Aspect="Fill"/>
+                            </Grid>
+                            <StackLayout Padding="15,0"
+                                         Grid.Row="1">
+                                <Label Text="{Binding Titulo, StringFormat='{0}'}"
+                                       FontSize="Title"
+                                       MaxLines="2"
+                                       FontFamily="MontserratMedium"/>
+                                <Label Text="{Binding Materia, StringFormat='{0}'}"
+                                       FontSize="Medium"
+                                       MaxLines="3"
+                                       FontFamily="MontserratMedium"/>
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Grid>
+                        <Label Text="Sem notícias"
+                               FontSize="30"
+                               FontFamily="MontserratBlack"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
+                    </Grid>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+        </Grid>
+
+        <StackLayout BackgroundColor="#000"
+                     Opacity="0.6"
+                     IsVisible="{Binding Activity}"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill"/>
+        <Image Source="carregar"
+               HeightRequest="100"
+               IsVisible="{Binding Activity}"
+               IsAnimationPlaying="{Binding Activity}"/>
+    </Grid>
 </ContentPage>

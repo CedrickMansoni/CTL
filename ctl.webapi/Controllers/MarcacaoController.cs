@@ -21,9 +21,9 @@ namespace ctl.webapi.Controllers
         }
 
         [HttpGet, Route("/listar/marcacoes")]
-        public async Task<IActionResult> ListarMarcacoes([FromQuery] int skip = 0, [FromQuery] int take = 30)
+        public async Task<IActionResult> ListarMarcacoes([FromQuery] int idCampo, [FromQuery] int skip = 0, [FromQuery] int take = 30)
         {
-            var result = await _service.ListarMarcacao(skip, take);
+            var result = await _service.ListarMarcacao(idCampo, skip, take);
             return result != null ? Ok(result) : NotFound("Nenhuma marcação encontrada.");
         }
 
@@ -35,7 +35,7 @@ namespace ctl.webapi.Controllers
         }
 
         [HttpGet, Route("/listar/marcacoes/data")]
-        public async Task<IActionResult> ListarMarcacoesPorData(Listar_Marcacao_DTO marcacao, [FromQuery] int skip = 0, [FromQuery] int take = 30)
+        public async Task<IActionResult> ListarMarcacoesPorData([FromQuery] Listar_Marcacao_DTO marcacao, [FromQuery] int skip = 0, [FromQuery] int take = 30)
         {
             var result = await _service.ListarMarcacaoPorData(marcacao, skip, take);
             return result != null ? Ok(result) : NotFound("Nenhuma marcação encontrada.");
@@ -83,7 +83,7 @@ namespace ctl.webapi.Controllers
             return result.Contains("sucesso") ? Ok(result) : BadRequest(result);
         }
         
-        [HttpPost, Route("confirmar/comprovativo")]
+        [HttpPost, Route("/confirmar/comprovativo")]
         public async Task<IActionResult> ConfirmarComprovativo([FromBody] Confirmar_Marcacao_DTO confirmar)
         {
             var result = await _service.ConfirmarMarcacao(confirmar);

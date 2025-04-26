@@ -61,6 +61,12 @@ public class Campo_MainPageViewModel : BindableObject
         await Shell.Current.GoToAsync("Campo_OfficePageAdd");
     });
 
+    public ICommand GotoAgendamentoCommand => new Command<Listar_Campo_DTO>(async campo =>
+    {
+        string campoJson = JsonSerializer.Serialize(campo);
+        await Shell.Current.GoToAsync($"Campo_AgendamentoPage?campoSelecionado={Uri.EscapeDataString(campoJson)}");
+    });
+
 }
 
 

@@ -52,11 +52,13 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
         return "Marcação realizada com sucesso. Tens 05 minutos para enviar o comprovativo, caso contrario a marcação será cancelada";
     }
 
-    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int skip = 0, int take = 30)
+    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int idCampo, int skip = 0, int take = 30)
     {
+        var dataActual = DateTime.SpecifyKind(Convert.ToDateTime(DateTime.UtcNow.Date), DateTimeKind.Utc);
         var marcacoes = from m in _context.TabelaMarcacao
                         join u in _context.TabelaUsuario on m.IdCliente equals u.Id
                         join c in _context.TabelaCampo on m.IdCampo equals c.Id
+                        where c.Id == idCampo && m.DataInicio.Date >= dataActual
                         select new Listar_Marcacao_DTO
                         {
                             Id = m.Id,

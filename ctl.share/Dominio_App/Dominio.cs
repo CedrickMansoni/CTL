@@ -7,6 +7,6 @@ public static class Dominio
     public static string URLApp { get; set; }
     static Dominio()
     {
-        URLApp = "https://bcad-129-122-151-81.ngrok-free.app/";
+        URLApp = "https://52ca-105-172-230-207.ngrok-free.app/";
     }
 }
