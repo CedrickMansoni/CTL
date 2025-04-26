@@ -8,6 +8,7 @@
              Shell.TitleColor="#FFF"
              xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Client.ViewModel;assembly=ctl.mobile.viewmodel"
              x:DataType="vm:Campo_AgendamentoViewModel"
+             xmlns:data="clr-namespace:ctl.share.DTO_App.Marcacao;assembly=ctl.share"
              Title="{Binding Campo.Nome, StringFormat=Campo: '{0}'}">
 
     <ContentPage.BindingContext>
@@ -29,7 +30,23 @@
                     BackgroundColor="#f2f4f5"
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 10">
+                <CollectionView ItemsSource="{Binding Marcacao}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="data:Listar_Marcacao_DTO">
 
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Grid>
+                            <Label Text="Nenhuma marcação encontrada para essa data"
+                                    FontSize="22"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    HorizontalTextAlignment="Center"
+                                    FontFamily="MontserratMedium"/>
+                        </Grid>
+                    </CollectionView.EmptyView>
+                </CollectionView>
             </Border>
 
             <Border VerticalOptions="Center"
