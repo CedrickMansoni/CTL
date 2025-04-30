@@ -15,6 +15,9 @@ public class MarcacaoModel
     [Column("id_campo")]
     public int IdCampo { get; set; }
 
+    [Column("data_marcacao")]
+    public DateTime DataMarcacao { get; set; } 
+
     [Column("data_inicio")]
     public DateTime DataInicio { get; set; }
 

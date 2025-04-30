@@ -21,8 +21,8 @@ public class MarcacaoService(IMarcacaoRepository repository, IConfiguration conf
         var result = await _repository.AlterarMarcacao(new Models.MarcacaoModel
         {
             Id = marcacao.IdMarcacao,
-            DataInicio = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataInicio), DateTimeKind.Utc),
-            DataTermino = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataTermino), DateTimeKind.Utc),
+            DataInicio = marcacao.DataInicio,
+            DataTermino = marcacao.DataTermino,
         });
         return result;
     }
@@ -56,7 +56,7 @@ public class MarcacaoService(IMarcacaoRepository repository, IConfiguration conf
             var mensagem = new Mensagem
             {
                 PhoneNumber = dadosMarcacao.Telefone,
-                MessageBody = $"A sua marcação foi confirmada com sucesso.\n Detalhes:\n Nome do Cliente: {dadosMarcacao.NomeCliente},\n Nome do Campo: {dadosMarcacao.NomeCampo},\n Data da Marcação: {dadosMarcacao.DataMarcacao},\n Hora de Início: {dadosMarcacao.DataInicio.Date.Hour},\n Hora de Término: {dadosMarcacao.DataTermino.Date.Hour},\n Telefone: {dadosMarcacao.Telefone},\n Status da Marcação: {dadosMarcacao.StatusMarcacao}"
+                MessageBody = $"A sua marcação foi confirmada com sucesso.\n Detalhes:\n Nome do Cliente: {dadosMarcacao.NomeCliente},\n Nome do Campo: {dadosMarcacao.NomeCampo},\n Data da Marcação: {dadosMarcacao.DataMarcacao},\n Hora de Início: {dadosMarcacao.DataInicio},\n Hora de Término: {dadosMarcacao.DataTermino},\n Telefone: {dadosMarcacao.Telefone},\n Status da Marcação: {dadosMarcacao.StatusMarcacao}"
             };
             var sms = new EnviarMensagem
             {
@@ -73,26 +73,20 @@ public class MarcacaoService(IMarcacaoRepository repository, IConfiguration conf
         {
             IdCliente = marcacao.IdCliente,
             IdCampo = marcacao.IdCampo,
-            DataInicio = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataInicio), DateTimeKind.Utc),
-            DataTermino = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataTermino), DateTimeKind.Utc),
-            Observacao = "Reservado",
+            //DataMarcacao = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataMarcacao), DateTimeKind.Utc),
+            DataMarcacao = marcacao.DataMarcacao,            
+            DataInicio = marcacao.DataInicio,
+            DataTermino = marcacao.DataTermino,
+            Observacao = "Pendente",
             Comprovativo = "Sem comprovativo",
         });
         return result;
     }
 
-    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int idCampo, int skip = 0, int take = 30)
+    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int idCampo, string dataMarcacao, int skip = 0, int take = 30)
     {
-        var result = await _repository.ListarMarcacao(idCampo, skip, take);
-        return result.Select(m => new Listar_Marcacao_DTO
-        {
-            Id = m.Id,
-            IdCliente = m.IdCliente,
-            IdCampo = m.IdCampo,
-            DataInicio = m.DataInicio,
-            DataTermino = m.DataTermino,
-            Observacao = m.Observacao,
-        });
+        return await _repository.ListarMarcacao(idCampo, dataMarcacao, skip, take);
+        
     }
 
     public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacaoPorData(Listar_Marcacao_DTO marcacao, int skip = 0, int take = 30)

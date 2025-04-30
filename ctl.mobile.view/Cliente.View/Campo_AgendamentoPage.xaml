@@ -20,7 +20,7 @@
                 BackgroundColor="#FFF"/>
         <Grid Padding="20"
               RowDefinitions="Auto, *, Auto, Auto"
-              ColumnDefinitions="*,*,*"
+              ColumnDefinitions="2*,*,*"
               RowSpacing="10"
               ColumnSpacing="5">
 
@@ -33,17 +33,17 @@
                 <CollectionView ItemsSource="{Binding Marcacao}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="data:Listar_Marcacao_DTO">
-
+                            <Label Text="{Binding DataMarcacao}"/>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                     <CollectionView.EmptyView>
                         <Grid>
                             <Label Text="Nenhuma marcação encontrada para essa data"
-                                    FontSize="22"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    HorizontalTextAlignment="Center"
-                                    FontFamily="MontserratMedium"/>
+                                   FontSize="22"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   FontFamily="MontserratMedium"/>
                         </Grid>
                     </CollectionView.EmptyView>
                 </CollectionView>
@@ -58,7 +58,9 @@
                     StrokeShape="RoundRectangle 20">
                 <DatePicker HeightRequest="70"
                             FontFamily="MontserratMedium"
-                            FontSize="20"/>
+                            Format="yyyy/MM/dd"
+                            FontSize="20"
+                            Date="{Binding DataMarcacao}"/>
             </Border>
 
             <Border VerticalOptions="Center"
@@ -72,7 +74,8 @@
                 <TimePicker HeightRequest="70"
                             Format="HH:mm"
                             FontFamily="MontserratMedium"
-                            FontSize="20"/>
+                            FontSize="20"
+                            Time="{Binding HoraInicio}"/>
             </Border>
             <Border VerticalOptions="Center"
                     HorizontalOptions="Center"
@@ -85,7 +88,8 @@
                 <TimePicker HeightRequest="70"
                             Format="HH:mm"
                             FontFamily="MontserratMedium"
-                            FontSize="20"/>
+                            FontSize="20"
+                            Time="{Binding HoraTermino}"/>
             </Border>
             <Button Grid.Row="3"
                     Grid.Column="2"
@@ -93,7 +97,8 @@
                     FontFamily="MontserratMedium"
                     FontSize="15"
                     BackgroundColor="#058380"
-                    CornerRadius="30"/>
+                    CornerRadius="30"
+                    Command="{Binding FazerMarcacaoCommand}"/>
         </Grid>
     </Grid>
 
