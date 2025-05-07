@@ -99,7 +99,7 @@ public class Campo_AgendamentoViewModel : BindableObject
     public ICommand ListarMarcacoesCommand => new Command(async () =>
     {  
         int p = Marcacao.Count == 0 ? 0 : 1;
-        var response = await client.GetAsync($"listar/marcacoes?idCampo={Campo.Id}&dataMarcacao={DataMarcacao.ToString("yyyy-MM-dd")}&skip={Marcacao.Count + 30 * p}&take={30}");
+        var response = await client.GetAsync($"listar/marcacoes?idCampo={Campo.Id}&dataMarcacao={DataMarcacao}&skip={Marcacao.Count + 30 * p}&take={30}");
         if (!response.IsSuccessStatusCode) return;
         using var m = await response.Content.ReadAsStreamAsync();
         var data = JsonSerializer.Deserialize<ObservableCollection<Listar_Marcacao_DTO>>(m, options) ?? [];
@@ -145,6 +145,7 @@ public class Campo_AgendamentoViewModel : BindableObject
         {
             IdCampo = Campo.Id,
             IdCliente = Convert.ToInt32(await SecureStorage.Default.GetAsync("usuarioId")),
+            DataMarcacao = DataMarcacao,
             DataInicio = DataMarcacao.AddHours(HoraInicio.Hours).AddMinutes(HoraInicio.Minutes),
             DataTermino = DataMarcacao.AddHours(HoraTermino.Hours).AddMinutes(HoraTermino.Minutes)
 
@@ -154,7 +155,8 @@ public class Campo_AgendamentoViewModel : BindableObject
         var response = await client.PostAsync("fazer/marcacao", content);
         if (response.IsSuccessStatusCode)
         {
-            await Shell.Current.DisplayAlert("Sucesso", $"Solicitação de agendamento realizada com sucesso\n{marcacaoNova.DataInicio}\n{marcacaoNova.DataTermino}", "Ok");
+            await Shell.Current.DisplayAlert("Sucesso", $"Solicitação de agendamento realizada com sucesso", "Ok");
+            ListarMarcacoesCommand.Execute(null);
             return;
         }
         await Shell.Current.DisplayAlert("Erro", "Solicitação de agendamento não foi realizada com sucesso", "Ok");

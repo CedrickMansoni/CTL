@@ -4,9 +4,9 @@ namespace ctl.share.Dominio_App;
 
 public static class Dominio
 {
-    public static string URLApp { get; set; }
+    public static string URLApp { get; private set; }
     static Dominio()
     {
-        URLApp = "https://9e31-129-122-151-81.ngrok-free.app/";
+        URLApp = "http://192.168.1.82:5130/";
     }
 }

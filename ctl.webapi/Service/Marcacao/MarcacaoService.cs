@@ -73,17 +73,16 @@ public class MarcacaoService(IMarcacaoRepository repository, IConfiguration conf
         {
             IdCliente = marcacao.IdCliente,
             IdCampo = marcacao.IdCampo,
-            //DataMarcacao = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataMarcacao), DateTimeKind.Utc),
-            DataMarcacao = marcacao.DataMarcacao,            
-            DataInicio = marcacao.DataInicio,
-            DataTermino = marcacao.DataTermino,
+            DataMarcacao = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataMarcacao), DateTimeKind.Utc),
+            DataInicio = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataInicio.AddHours(-1)), DateTimeKind.Utc),
+            DataTermino = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataTermino.AddHours(-1)), DateTimeKind.Utc),   
             Observacao = "Pendente",
             Comprovativo = "Sem comprovativo",
         });
         return result;
     }
 
-    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int idCampo, string dataMarcacao, int skip = 0, int take = 30)
+    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int idCampo, DateTime dataMarcacao, int skip = 0, int take = 30)
     {
         return await _repository.ListarMarcacao(idCampo, dataMarcacao, skip, take);
         

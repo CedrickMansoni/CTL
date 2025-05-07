@@ -2,7 +2,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Windows.Input;
-using Android.Database;
 using ctl.share.Dominio_App;
 using ctl.share.DTO_App.Banco;
 

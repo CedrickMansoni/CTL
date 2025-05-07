@@ -45,7 +45,7 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
         {
             var dataInicial = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataInicio), DateTimeKind.Utc);
             var dataFinal = DateTime.SpecifyKind(Convert.ToDateTime(marcacao.DataTermino), DateTimeKind.Utc);
-            var marcacoes = await _context.TabelaMarcacao.Where(m => m.DataInicio >= marcacao.DataInicio && m.DataTermino <= marcacao.DataTermino).ToListAsync();
+            var marcacoes = await _context.TabelaMarcacao.Where(m => m.DataInicio >= dataInicial && m.DataTermino <= dataFinal).ToListAsync();
             if (marcacoes.Count > 0) return "Já existe uma marcação nesse horário";
             await _context.TabelaMarcacao.AddAsync(marcacao);
             await _context.SaveChangesAsync();
@@ -64,7 +64,7 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
         var marcacoes = from m in _context.TabelaMarcacao
                         join u in _context.TabelaUsuario on m.IdCliente equals u.Id
                         join c in _context.TabelaCampo on m.IdCampo equals c.Id
-                        where c.Id == idCampo && m.DataMarcacao == dataMarcacao
+                        where c.Id == idCampo && m.DataMarcacao.Month == dataActual.Month 
                         select new Listar_Marcacao_DTO
                         {
                             Id = m.Id,

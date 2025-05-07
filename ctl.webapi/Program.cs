@@ -15,6 +15,7 @@ using ctl.webapi.Service.Noticia;
 using ctl.webapi.Service.Usuario;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,10 +69,11 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "CTL_APP"));
+    app.MapScalarApiReference();
 }
 
 string storagePath = app.Environment.IsDevelopment() ?
-"/home/ckm/Storage/CTL" :
+"/Users/cedrickmansoni/Storage/CTL" :
 "/home/GSA_PROJECT/Storage/CTL";
 
 // Configurar middleware para servir arquivos de um diretório externo
@@ -100,7 +102,7 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

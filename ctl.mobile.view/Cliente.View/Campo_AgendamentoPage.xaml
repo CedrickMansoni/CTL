@@ -29,21 +29,58 @@
                     Grid.ColumnSpan="3"
                     BackgroundColor="#f2f4f5"
                     StrokeThickness="0"
-                    StrokeShape="RoundRectangle 10">
+                    StrokeShape="RoundRectangle 10"
+                    Padding="10">
                 <CollectionView ItemsSource="{Binding Marcacao}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="data:Listar_Marcacao_DTO">
-                            <Label Text="{Binding DataMarcacao}"/>
+                            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+                                  ColumnDefinitions="*,*">
+                                <Image Source="quadra_on"
+                                       HeightRequest="80"
+                                       Grid.RowSpan="6"/>
+                                <Label Text="{Binding Campo, StringFormat='Campo: {0}'}"
+                                       FontFamily="MontserratMedium"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       VerticalOptions="Center"/>
+                                <Label Text="{Binding DataMarcacao, StringFormat='Data: {0:dd/MM/yyyy}'}"
+                                       FontFamily="MontserratMedium"
+                                       FontSize="18"
+                                       Grid.Row="1"
+                                       Grid.Column="1"/>
+                                <Label Text="{Binding DataInicio, StringFormat='Início: {0:HH:mm}'}"
+                                       FontFamily="MontserratMedium"
+                                       FontSize="18"
+                                       Grid.Row="2"
+                                       Grid.Column="1"/>
+                                <Label Text="{Binding DataTermino, StringFormat='Término: {0:HH:mm}'}"
+                                       FontFamily="MontserratMedium"
+                                       FontSize="18"
+                                       Grid.Row="3"
+                                       Grid.Column="1"/>
+                                <Label Text="{Binding Observacao, StringFormat='Estado: {0}'}"
+                                       FontFamily="MontserratMedium"
+                                       FontSize="18"
+                                       Grid.Row="5"
+                                       Grid.Column="1"/>
+                                <Border Grid.Row="6"
+                                        Grid.ColumnSpan="2"/>
+                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                     <CollectionView.EmptyView>
-                        <Grid>
+                        <Grid VerticalOptions="Center"
+                              HorizontalOptions="Center">
                             <Label Text="Nenhuma marcação encontrada para essa data"
                                    FontSize="22"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
                                    FontFamily="MontserratMedium"/>
+
                         </Grid>
                     </CollectionView.EmptyView>
                 </CollectionView>
@@ -59,7 +96,7 @@
                 <DatePicker HeightRequest="70"
                             FontFamily="MontserratMedium"
                             Format="yyyy/MM/dd"
-                            FontSize="20"
+                            FontSize="18"
                             Date="{Binding DataMarcacao}"/>
             </Border>
 
@@ -74,7 +111,7 @@
                 <TimePicker HeightRequest="70"
                             Format="HH:mm"
                             FontFamily="MontserratMedium"
-                            FontSize="20"
+                            FontSize="18"
                             Time="{Binding HoraInicio}"/>
             </Border>
             <Border VerticalOptions="Center"
@@ -88,11 +125,12 @@
                 <TimePicker HeightRequest="70"
                             Format="HH:mm"
                             FontFamily="MontserratMedium"
-                            FontSize="20"
+                            FontSize="18"
                             Time="{Binding HoraTermino}"/>
             </Border>
             <Button Grid.Row="3"
-                    Grid.Column="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
                     Text="Agendar"
                     FontFamily="MontserratMedium"
                     FontSize="15"
