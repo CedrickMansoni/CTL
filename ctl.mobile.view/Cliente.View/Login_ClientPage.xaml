@@ -10,127 +10,129 @@
        <ContentPage.BindingContext>
               <vm:LoginPage_ViewModel/>
        </ContentPage.BindingContext>
-       <Grid>
-              <Grid RowDefinitions="Auto,*,Auto"
-                    IsEnabled="{Binding EnablePage}">
-                     <Image Source="bola"
-                            HeightRequest="30"
-                            HorizontalOptions="Start"
-                            Margin="10, 30"/>
-                     <Label Text="Clube de Ténis de Luanda"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            FontSize="23"
-                            FontAttributes="Bold"
-                            FontFamily="MontserratBold"
-                            TextColor="#FFF"
-                            Margin="50,50"/>
-                     <Image Source="bola"
-                            HeightRequest="30"
-                            HorizontalOptions="End"
-                            Margin="10, 30"/>
-                     <Border Grid.RowSpan="2"
-                             Grid.Row="1"
-                             StrokeThickness="0"
-                             StrokeShape="RoundRectangle 30 30 0 0"
-                             BackgroundColor="#ffffff"/>
-                     <VerticalStackLayout Grid.Row="1"
-                                          Padding="30"
-                                          Spacing="10">
-                            <Border VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="90"
-                                    WidthRequest="90"
-                                    StrokeShape="RoundRectangle 60"
-                                    StrokeThickness="3"
-                                    Stroke="#000"
-                                    Margin="20, 20">
-                                   <Image Source="user"
-                                          Aspect="Fill"
-                                          WidthRequest="80"
-                                          HeightRequest="80"/>
-                            </Border>
-
-                            <Border Padding="15, -15"
-                                    BackgroundColor="#ebebeb"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 60">
-                                   <Entry Placeholder="Telefone"
-                                          MaxLength="9"
-                                          HeightRequest="80"
-                                          FontSize="20"
-                                          Keyboard="Numeric"
-                                          HorizontalTextAlignment="Center"
-                                          FontFamily="MontserratMedium"
-                                          Text="{Binding Usuario.Telefone}"/>
-                            </Border>
-                            <Border Padding="15, -15"
-                                    BackgroundColor="#ebebeb"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 60">
-                                   <Entry Placeholder="Senha"
-                                          HeightRequest="80"
-                                          IsPassword="True"
-                                          FontSize="20"
-                                          HorizontalTextAlignment="Center"
-                                          FontFamily="MontserratMedium"
-                                          Text="{Binding Usuario.Senha}"/>
-                            </Border>
-                            <Border StrokeShape="RoundRectangle 30"
-                                    StrokeThickness="0">
-                                   <Grid HeightRequest="50">
-                                          <Image Source="bg_button"
-                                                 Aspect="Fill"/>
-                                          <Button Text="Entrar"
-                                                  FontSize="22"
-                                                  FontFamily="MontserratMedium"
-                                                  BackgroundColor="Transparent"
-                                                  Command="{Binding FazerLoginCommand}"/>
-                                   </Grid>
-                            </Border>
-                            <Grid Margin="10">
-                                   <Label Text="Criar uma conta"
-                                          HorizontalOptions="Start"
-                                          FontSize="15"
-                                          FontFamily="MontserratMedium">
-                                          <Label.GestureRecognizers>
-                                                 <TapGestureRecognizer Command="{Binding NavegarParaCadastroCommand}"/>
-                                          </Label.GestureRecognizers>
-                                   </Label>
-                                   <Label Text="Recuperar senha"
-                                          HorizontalOptions="End"
-                                          FontSize="15"
-                                          FontFamily="MontserratMedium">
-                                          <Label.GestureRecognizers>
-                                                 <TapGestureRecognizer Command="{Binding NavegarParaRecuperarSenhaCommand}"/>
-                                          </Label.GestureRecognizers>
-                                   </Label>
-                            </Grid>
-                     </VerticalStackLayout>
-                     <Border Grid.Row="2"
-                             StrokeThickness="0"
-                             BackgroundColor="#058380"/>
-                     <HorizontalStackLayout Grid.Row="2"
-                                            HorizontalOptions="Fill"
-                                            Margin="20">
-                            <Image Source="call_center"
+       <ScrollView>
+              <Grid>
+                     <Grid RowDefinitions="Auto,*,Auto"
+                           IsEnabled="{Binding EnablePage}">
+                            <Image Source="bola"
                                    HeightRequest="30"
-                                   Margin="10, 0"/>
-                            <Label Text="(+244) 929 865 012 / 949 393 436"
-                                   FontSize="15"
+                                   HorizontalOptions="Start"
+                                   Margin="10, 30"/>
+                            <Label Text="Clube de Ténis de Luanda"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   FontSize="23"
+                                   FontAttributes="Bold"
+                                   FontFamily="MontserratBold"
                                    TextColor="#FFF"
-                                   VerticalOptions="Center"
-                                   FontFamily="MontserratMedium"/>
-                     </HorizontalStackLayout>
+                                   Margin="50,50"/>
+                            <Image Source="bola"
+                                   HeightRequest="30"
+                                   HorizontalOptions="End"
+                                   Margin="10, 30"/>
+                            <Border Grid.RowSpan="2"
+                                    Grid.Row="1"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 30 30 0 0"
+                                    BackgroundColor="#ffffff"/>
+                            <VerticalStackLayout Grid.Row="1"
+                                                 Padding="30"
+                                                 Spacing="10">
+                                   <Border VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           HeightRequest="90"
+                                           WidthRequest="90"
+                                           StrokeShape="RoundRectangle 60"
+                                           StrokeThickness="3"
+                                           Stroke="#000"
+                                           Margin="20, 20">
+                                          <Image Source="user"
+                                                 Aspect="Fill"
+                                                 WidthRequest="80"
+                                                 HeightRequest="80"/>
+                                   </Border>
+
+                                   <Border Padding="15, -15"
+                                           BackgroundColor="#ebebeb"
+                                           StrokeThickness="0"
+                                           StrokeShape="RoundRectangle 60">
+                                          <Entry Placeholder="Telefone"
+                                                 MaxLength="9"
+                                                 HeightRequest="80"
+                                                 FontSize="20"
+                                                 Keyboard="Numeric"
+                                                 HorizontalTextAlignment="Center"
+                                                 FontFamily="MontserratMedium"
+                                                 Text="{Binding Usuario.Telefone}"/>
+                                   </Border>
+                                   <Border Padding="15, -15"
+                                           BackgroundColor="#ebebeb"
+                                           StrokeThickness="0"
+                                           StrokeShape="RoundRectangle 60">
+                                          <Entry Placeholder="Senha"
+                                                 HeightRequest="80"
+                                                 IsPassword="True"
+                                                 FontSize="20"
+                                                 HorizontalTextAlignment="Center"
+                                                 FontFamily="MontserratMedium"
+                                                 Text="{Binding Usuario.Senha}"/>
+                                   </Border>
+                                   <Border StrokeShape="RoundRectangle 30"
+                                           StrokeThickness="0">
+                                          <Grid HeightRequest="50">
+                                                 <Image Source="bg_button"
+                                                        Aspect="Fill"/>
+                                                 <Button Text="Entrar"
+                                                         FontSize="22"
+                                                         FontFamily="MontserratMedium"
+                                                         BackgroundColor="Transparent"
+                                                         Command="{Binding FazerLoginCommand}"/>
+                                          </Grid>
+                                   </Border>
+                                   <Grid Margin="10">
+                                          <Label Text="Criar uma conta"
+                                                 HorizontalOptions="Start"
+                                                 FontSize="15"
+                                                 FontFamily="MontserratMedium">
+                                                 <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding NavegarParaCadastroCommand}"/>
+                                                 </Label.GestureRecognizers>
+                                          </Label>
+                                          <Label Text="Recuperar senha"
+                                                 HorizontalOptions="End"
+                                                 FontSize="15"
+                                                 FontFamily="MontserratMedium">
+                                                 <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding NavegarParaRecuperarSenhaCommand}"/>
+                                                 </Label.GestureRecognizers>
+                                          </Label>
+                                   </Grid>
+                            </VerticalStackLayout>
+                            <Border Grid.Row="2"
+                                    StrokeThickness="0"
+                                    BackgroundColor="#058380"/>
+                            <HorizontalStackLayout Grid.Row="2"
+                                                   HorizontalOptions="Fill"
+                                                   Margin="20">
+                                   <Image Source="call_center"
+                                          HeightRequest="30"
+                                          Margin="10, 0"/>
+                                   <Label Text="(+244) 929 865 012 / 949 393 436"
+                                          FontSize="15"
+                                          TextColor="#FFF"
+                                          VerticalOptions="Center"
+                                          FontFamily="MontserratMedium"/>
+                            </HorizontalStackLayout>
+                     </Grid>
+                     <StackLayout BackgroundColor="#454545"
+                                  Opacity="0.8"
+                                  IsVisible="{Binding Activity}"
+                                  VerticalOptions="Fill"
+                                  HorizontalOptions="Fill"/>
+                     <ActivityIndicator IsRunning="{Binding Activity}"
+                                        Color="#058380"
+                                        WidthRequest="100"/>
               </Grid>
-              <StackLayout BackgroundColor="#454545"
-                           Opacity="0.8"
-                           IsVisible="{Binding Activity}"
-                           VerticalOptions="Fill"
-                           HorizontalOptions="Fill"/>
-              <ActivityIndicator IsRunning="{Binding Activity}"
-                                 Color="#058380"
-                                 WidthRequest="100"/>
-       </Grid>
+       </ScrollView>
 
 </ContentPage>
