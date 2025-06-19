@@ -60,11 +60,10 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
     public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int idCampo, DateTime dataMarcacao, int skip = 0, int take = 30)
     {
         var dataActual = DateTime.SpecifyKind(Convert.ToDateTime(dataMarcacao), DateTimeKind.Utc);
-
         var marcacoes = from m in _context.TabelaMarcacao
                         join u in _context.TabelaUsuario on m.IdCliente equals u.Id
                         join c in _context.TabelaCampo on m.IdCampo equals c.Id
-                        where c.Id == idCampo && m.DataMarcacao.Month == dataActual.Month 
+                        where c.Id == idCampo && m.DataMarcacao.Month == dataActual.Month
                         select new Listar_Marcacao_DTO
                         {
                             Id = m.Id,
@@ -104,10 +103,11 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
 
     public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacaoPorStatus(MarcacaoModel marcacao, int skip = 0, int take = 30)
     {
+        var hoje = DateTime.SpecifyKind(Convert.ToDateTime(DateTime.UtcNow), DateTimeKind.Utc);
         var marcacoes = from m in _context.TabelaMarcacao
                         join u in _context.TabelaUsuario on m.IdCliente equals u.Id
                         join c in _context.TabelaCampo on m.IdCampo equals c.Id
-                        where m.Observacao == marcacao.Observacao
+                        where m.Observacao == marcacao.Observacao && m.DataMarcacao == hoje && m.DataTermino.Hour < hoje.Hour
                         select new Listar_Marcacao_DTO
                         {
                             Id = m.Id,
@@ -124,10 +124,11 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
 
     public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacaoPorUsuario(MarcacaoModel marcacao)
     {
+        var hoje = DateTime.SpecifyKind(Convert.ToDateTime(DateTime.Now), DateTimeKind.Utc);
         var marcacoes = from m in _context.TabelaMarcacao
                         join u in _context.TabelaUsuario on m.IdCliente equals u.Id
                         join c in _context.TabelaCampo on m.IdCampo equals c.Id
-                        where m.IdCliente == marcacao.IdCliente
+                        where m.IdCliente == marcacao.IdCliente 
                         select new Listar_Marcacao_DTO
                         {
                             Id = m.Id,
@@ -135,11 +136,29 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
                             Cliente = u.Nome,
                             IdCampo = m.IdCampo,
                             Campo = c.Nome,
+                            DataMarcacao = m.DataMarcacao,
                             DataInicio = m.DataInicio,
                             DataTermino = m.DataTermino,
-                            Observacao = m.Observacao
+                            Comprovativo = m.Comprovativo,
+                            Observacao = m.Observacao,
+                            ValorPagamento = c.Preco,
+                            EstadoMarcacao = "Enviado".Equals(m.Observacao) || "Aprovado".Equals(m.Observacao)
                         };
-        return await marcacoes.OrderByDescending(x => x.Id).ToListAsync(default);
+        return marcacoes.Select(m => new Listar_Marcacao_DTO
+        {
+            Id = m.Id,
+            IdCliente = m.IdCliente,
+            Cliente = m.Cliente,
+            IdCampo = m.IdCampo,
+            Campo = m.Campo,
+            DataMarcacao = m.DataMarcacao,
+            DataInicio = m.DataInicio,
+            DataTermino = m.DataTermino,
+            Comprovativo = m.Comprovativo,
+            Observacao = m.Observacao,
+            ValorPagamento = (decimal)(m.DataTermino - m.DataInicio).TotalHours * m.ValorPagamento,
+            EstadoMarcacao = m.EstadoMarcacao
+        }).OrderByDescending(m => m.Id);
     }
 
     public async Task<Dados_Marcacao_DTO> ObterDadosMarcacao(int idMarcacao)
@@ -157,6 +176,7 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
                            DataTermino = m.DataTermino,
                            Telefone = u.Telefone,
                            StatusMarcacao = m.Observacao,
+
                        };
         var dadosMarcacao = await marcacao.FirstOrDefaultAsync();
         return dadosMarcacao ?? new Dados_Marcacao_DTO
@@ -195,10 +215,10 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
     {
         var marcacao = await _context.TabelaMarcacao.FirstOrDefaultAsync(m => m.Id == comprovativo.IdMarcacao);
         if (marcacao == null) return "Marcação não encontrada";
-        if (comprovativo.CodigoTransacao.Equals(marcacao.CodigoTransacao)) return "Comprovativo já enviado";
+        //if (comprovativo.CodigoTransacao.Equals(marcacao.CodigoTransacao)) return "Comprovativo já enviado";
         marcacao.Comprovativo = comprovativo.Comprovativo!.FileName;
-        marcacao.CodigoTransacao = comprovativo.CodigoTransacao;
-        marcacao.Observacao = "Comprovativo enviado";
+        //marcacao.CodigoTransacao = comprovativo.CodigoTransacao;
+        marcacao.Observacao = "Enviado";
         await _context.SaveChangesAsync();
         return "Comprovativo enviado com sucesso";
     }

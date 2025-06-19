@@ -110,7 +110,7 @@ public class NoticiaAdd_OfficeViewModel : BindableObject
 
     public ICommand AbrirCameraCommand => new Command(async () =>
     {
-        bool response = await Shell.Current.DisplayAlert("...", "Como pretende obter a imagem do produto?", "Camera", "Galeria");
+        bool response = await Shell.Current.DisplayAlert("...", "Como pretende obter a foto da noticia?", "Camera", "Galeria");
         var doc = response ?
             await MediaPicker.CapturePhotoAsync() :
             await MediaPicker.PickPhotoAsync();

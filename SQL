@@ -3,7 +3,12 @@ CREATE TABLE t_01_tipo_usuario (
     id SERIAL PRIMARY KEY,
     descricao VARCHAR(255) UNIQUE NOT NULL
 );
-INSERT INTO t_01_tipo_usuario (descricao) VALUES ('Cliente'), ('Funcionario'), ('Administrador');
+
+INSERT INTO
+    t_01_tipo_usuario (descricao)
+VALUES ('Cliente'),
+    ('Funcionario'),
+    ('Administrador');
 
 -- Create t_02_usuario table
 CREATE TABLE t_02_usuario (
@@ -13,9 +18,22 @@ CREATE TABLE t_02_usuario (
     telefone VARCHAR(10) NOT NULL UNIQUE,
     senha TEXT NOT NULL,
     estado VARCHAR(10) NOT NULL DEFAULT 'Activo',
-    FOREIGN KEY (id_tipo) REFERENCES t_01_tipo_usuario(id)
+    FOREIGN KEY (id_tipo) REFERENCES t_01_tipo_usuario (id)
 );
-INSERT INTO t_02_usuario (id_tipo, nome, telefone, senha) VALUES (3, 'ADMIN', '951510682', '26824A6D101EBA912B564F7B852EB81A92A2E6A1FE598D8B031E5E6F367A23B7293AFE9218D691431AB4210723616288826485B0673CD746297BF6A701CDBA7A');
+
+INSERT INTO
+    t_02_usuario (
+        id_tipo,
+        nome,
+        telefone,
+        senha
+    )
+VALUES (
+        3,
+        'ADMIN',
+        '951510682',
+        '26824A6D101EBA912B564F7B852EB81A92A2E6A1FE598D8B031E5E6F367A23B7293AFE9218D691431AB4210723616288826485B0673CD746297BF6A701CDBA7A'
+    );
 
 -- Create t_03_campo table
 CREATE TABLE t_03_campo (
@@ -30,13 +48,14 @@ CREATE TABLE t_04_marcacao (
     id SERIAL PRIMARY KEY,
     id_cliente INTEGER NOT NULL,
     id_campo INTEGER NOT NULL,
+    data_marcacao TIMESTAMP,
     data_inicio TIMESTAMP,
     data_termino TIMESTAMP,
     comprovativo TEXT NOT NULL,
-    codigo_transacao VARCHAR(255) UNIQUE,
+    codigo_transacao VARCHAR(255),
     observacao TEXT NOT NULL DEFAULT 'Pendente',
-    FOREIGN KEY (id_cliente) REFERENCES t_02_usuario(id),
-    FOREIGN KEY (id_campo) REFERENCES t_03_campo(id)
+    FOREIGN KEY (id_cliente) REFERENCES t_02_usuario (id),
+    FOREIGN KEY (id_campo) REFERENCES t_03_campo (id)
 );
 
 -- Create t_05_estado_marcacao table
@@ -44,8 +63,8 @@ CREATE TABLE t_05_estado_marcacao (
     id SERIAL PRIMARY KEY,
     id_funcionario INTEGER NOT NULL,
     id_campo INTEGER NOT NULL,
-    FOREIGN KEY (id_funcionario) REFERENCES t_02_usuario(id),
-    FOREIGN KEY (id_funcionario) REFERENCES t_03_campo(id)
+    FOREIGN KEY (id_funcionario) REFERENCES t_02_usuario (id),
+    FOREIGN KEY (id_funcionario) REFERENCES t_03_campo (id)
 );
 
 -- Create t_06_noticia table
@@ -56,7 +75,7 @@ CREATE TABLE t_06_noticia (
     materia TEXT NOT NULL,
     imagem TEXT NOT NULL,
     data_publicacao TIMESTAMP NOT NULL,
-    FOREIGN KEY (id_funcionario) REFERENCES t_02_usuario(id)
+    FOREIGN KEY (id_funcionario) REFERENCES t_02_usuario (id)
 );
 
 -- Create t_07_banco table
@@ -73,9 +92,5 @@ CREATE TABLE t_08_conta (
     id_banco INTEGER NOT NULL,
     numero VARCHAR(50) NOT NULL UNIQUE,
     iban VARCHAR(50) NOT NULL UNIQUE,
-    FOREIGN KEY (id_banco) REFERENCES t_07_banco(id)
+    FOREIGN KEY (id_banco) REFERENCES t_07_banco (id)
 );
-
-
-
-

@@ -133,10 +133,16 @@ public class MarcacaoService(IMarcacaoRepository repository, IConfiguration conf
         {
             Id = m.Id,
             IdCliente = m.IdCliente,
+            Cliente = m.Cliente,
             IdCampo = m.IdCampo,
+            Campo = m.Campo,
+            DataMarcacao = m.DataMarcacao,
             DataInicio = m.DataInicio,
             DataTermino = m.DataTermino,
+            Comprovativo = m.Comprovativo,
             Observacao = m.Observacao,
+            ValorPagamento = m.ValorPagamento,
+            EstadoMarcacao = m.EstadoMarcacao
         });
     }
 
@@ -157,7 +163,7 @@ public class MarcacaoService(IMarcacaoRepository repository, IConfiguration conf
         }
 
         // Salvar a imagem no caminho configurado
-        await arquivoService.SalvarArquivoAsync(comprovativo.Comprovativo!, storagePath, $"{comprovativo.Telefone}/{DateTime.UtcNow:yyyyMMddHHmmss}");
+        await arquivoService.SalvarArquivoAsync(comprovativo.Comprovativo!, storagePath, $"{comprovativo.Telefone}");
 
         // Retornar o caminho do arquivo salvo
         return "Comprovativo guardado com sucesso";

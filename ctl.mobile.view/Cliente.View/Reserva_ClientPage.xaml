@@ -2,11 +2,83 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ctl.mobile.view.Cliente.View.Reserva_ClientPage"
-             Title="Reserva_ClientPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             BackgroundColor="#058380"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Client.ViewModel;assembly=ctl.mobile.viewmodel"
+             x:DataType="vm:Reserva_ViewModel"
+             xmlns:data="clr-namespace:ctl.share.DTO_App.Marcacao;assembly=ctl.share"
+             Shell.NavBarIsVisible="False">
+
+
+   <ContentPage.BindingContext>
+      <vm:Reserva_ViewModel/>
+   </ContentPage.BindingContext>
+
+   <Grid RowDefinitions="Auto,*,Auto">
+      <Border BackgroundColor="#FFF"
+              HeightRequest="40"
+              WidthRequest="40"
+              Margin="10"
+              HorizontalOptions="Start"
+              StrokeThickness="2"
+              Stroke="#DEDEDE"
+              StrokeShape="RoundRectangle 60">
+         <Image Source="user"
+                Aspect="Fill"/>
+      </Border>
+
+      <Border Grid.Row="1"
+              StrokeThickness="0"
+              BackgroundColor="#FFF"/>
+
+      <CollectionView x:Name="colecao"
+                      ItemsSource="{Binding Marcacao}"
+                      SelectionMode="None"
+                      Margin="10"
+                      Grid.Row="1">
+         <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="data:Listar_Marcacao_DTO">
+               <Grid Padding="10, 5">
+                  <Border BackgroundColor="#f2f4f5"
+                          Padding="0, 10"
+                          StrokeThickness="0"
+                          StrokeShape="RoundRectangle 10">
+                     <StackLayout Padding="10">
+
+                        <Label Text="{Binding Campo, StringFormat= 'Campo: {0}'}"
+                               FontSize="20"
+                               FontFamily="MontserratMedium"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding ValorPagamento, StringFormat= 'Valor total  {0:N2} AOA'}"
+                               FontSize="20"
+                               FontFamily="MontserratMedium"/>
+                        <Label Text="{Binding DataMarcacao, StringFormat= 'Data            {0:dd-MM-yyyy}'}"
+                               HorizontalOptions="Start"
+                               FontSize="20"
+                               FontFamily="MontserratMedium"/>
+                        <Label Text="{Binding DataInicio, StringFormat= 'Começo      {0:HH:mm}'}"
+                               HorizontalOptions="Start"
+                               FontSize="20"
+                               FontFamily="MontserratMedium"/>
+                        <Label Text="{Binding DataTermino, StringFormat= 'Fim              {0:HH:mm}'}"
+                               FontSize="20"
+                               FontFamily="MontserratMedium"/>
+                        <Button Text="{Binding Observacao}"
+                                BackgroundColor="#058380"
+                                Command="{Binding BindingContext.AbrirCameraCommand, Source={x:Reference Name = colecao}}"
+                                CommandParameter="{Binding .}"
+                                FontSize="20"/>
+                     </StackLayout>
+                  </Border>
+               </Grid>
+            </DataTemplate>
+         </CollectionView.ItemTemplate>
+         <CollectionView.EmptyView>
+            <Grid>
+               <Label Text="Sem marcação"
+                      VerticalOptions="Center"
+                      HorizontalOptions="Center"/>
+            </Grid>
+         </CollectionView.EmptyView>
+      </CollectionView>
+   </Grid>
 </ContentPage>

@@ -27,8 +27,8 @@ namespace ctl.webapi.Controllers
             return result.ToList().Count != 0 ? Ok(result) : NotFound("Nenhuma marcação encontrada.");
         }
 
-        [HttpGet, Route("/listar/marcacoes/usuario/{idUsuario}")]
-        public async Task<IActionResult> ListarMarcacoesPorUsuario([FromRoute] int idUsuario, [FromQuery] int skip = 0, [FromQuery] int take = 30)
+        [HttpGet, Route("/listar/marcacoes/usuario")]
+        public async Task<IActionResult> ListarMarcacoesPorUsuario([FromQuery] int idUsuario, [FromQuery] int skip = 0, [FromQuery] int take = 30)
         {
             var result = await _service.ListarMarcacaoPorUsuario(idUsuario);
             return result != null ? Ok(result) : NotFound("Nenhuma marcação encontrada.");
