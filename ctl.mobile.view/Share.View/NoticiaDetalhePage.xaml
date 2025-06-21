@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctl.mobile.view.Share.View.NoticiaDetalhePage"
+             BackgroundColor="#058380"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Share.ViewModel;assembly=ctl.mobile.viewmodel"
+             x:DataType="vm:Noticia_DetalheViewModel"
+             xmlns:data="clr-namespace:ctl.share.DTO_App.Noticia;assembly=ctl.share"
+             Shell.NavBarIsVisible="True"
+             Shell.BackgroundColor="#058380"
+             Shell.ForegroundColor="#FFFFFF"
+             Shell.TitleColor="#FFFFFF"
+             Title="Noticias">
+
+    <ContentPage.BindingContext>
+        <vm:Noticia_DetalheViewModel/>
+    </ContentPage.BindingContext>
+
+    <ScrollView BackgroundColor="#FFFFFF">
+        <Grid RowDefinitions="Auto,Auto"
+              Margin="0,0,0,10">
+            <Grid Grid.Row="0">
+                <Image Source="gallery"/>
+                <Image Source="{Binding Noticia.Imagem}"
+                       Aspect="Fill"/>
+            </Grid>
+            <StackLayout Padding="15,0"
+                         Grid.Row="1">
+                <Label Text="{Binding Noticia.Titulo, StringFormat='{0}'}"
+                       FontSize="Title"
+                       MaxLines="2"
+                       FontFamily="MontserratMedium"/>
+                <Label Text="{Binding Noticia.Materia, StringFormat='{0}'}"
+                       FontSize="Medium"
+                       FontFamily="MontserratMedium"/>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

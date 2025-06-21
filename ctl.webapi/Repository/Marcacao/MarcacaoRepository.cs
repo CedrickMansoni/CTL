@@ -63,7 +63,7 @@ public class MarcacaoRepository(AppDataContext context) : IMarcacaoRepository
         var marcacoes = from m in _context.TabelaMarcacao
                         join u in _context.TabelaUsuario on m.IdCliente equals u.Id
                         join c in _context.TabelaCampo on m.IdCampo equals c.Id
-                        where c.Id == idCampo && m.DataMarcacao.Month == dataActual.Month
+                        where c.Id == idCampo 
                         select new Listar_Marcacao_DTO
                         {
                             Id = m.Id,

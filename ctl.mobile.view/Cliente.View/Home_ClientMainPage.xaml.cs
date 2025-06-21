@@ -1,4 +1,4 @@
-using ctl.mobile.viewmodel.Office.ViewModel;
+using ctl.mobile.viewmodel.Share.ViewModel;
 
 namespace ctl.mobile.view.Cliente.View;
 
@@ -12,7 +12,7 @@ public partial class Home_ClientMainPage : ContentPage
 	protected override void OnAppearing()
 	{
 		base.OnAppearing();
-		var vm = (Home_OfficeViewModel)BindingContext;
+		var vm = (Noticia_ViewModel)BindingContext;
 		vm.ListarNoticiasCommand.Execute(null);
 	}
 }

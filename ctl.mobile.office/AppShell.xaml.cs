@@ -1,4 +1,5 @@
 ﻿using ctl.mobile.view.Office.View;
+using ctl.mobile.view.Share.View;
 
 namespace ctl.mobile.office;
 
@@ -15,5 +16,6 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(Noticia_OfficePage), typeof(Noticia_OfficePage));
 		Routing.RegisterRoute(nameof(Campo_OfficePageAdd), typeof(Campo_OfficePageAdd));
 		Routing.RegisterRoute(nameof(Banco_OfficePageAdd), typeof(Banco_OfficePageAdd));
+		Routing.RegisterRoute(nameof(NoticiaDetalhePage), typeof(NoticiaDetalhePage));
 	}
 }

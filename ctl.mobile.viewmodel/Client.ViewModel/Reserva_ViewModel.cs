@@ -83,8 +83,8 @@ public class Reserva_ViewModel : BindableObject
         // Filtra marcações válidas
         var hoje = DateTime.Now.Date;
         var horaAtual = DateTime.Now.Hour;
-        var filtradas = data.Where(item =>
-            item.DataMarcacao.Date == hoje &&
+    var filtradas = data.Where(item =>
+        item.DataMarcacao.Date >= hoje &&
             item.DataTermino.Hour > horaAtual
         ).ToList();
 

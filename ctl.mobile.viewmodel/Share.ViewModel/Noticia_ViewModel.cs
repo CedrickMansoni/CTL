@@ -1,17 +1,18 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Windows.Input;
 using ctl.share.Dominio_App;
 using ctl.share.DTO_App.Noticia;
 
-namespace ctl.mobile.viewmodel.Office.ViewModel;
+namespace ctl.mobile.viewmodel.Share.ViewModel;
 
-public class Home_OfficeViewModel : BindableObject
+public class Noticia_ViewModel : BindableObject
 {
     HttpClient client;
     JsonSerializerOptions options;
-    public Home_OfficeViewModel()
+    public Noticia_ViewModel()
     {
         client = new HttpClient() { BaseAddress = new Uri($"{Dominio.URLApp}") };
         options = new JsonSerializerOptions
@@ -82,6 +83,14 @@ public class Home_OfficeViewModel : BindableObject
         await Shell.Current.GoToAsync("Noticia_OfficePage");
         ActivityCommand.Execute(null);
     });
+
+    public ICommand VerDetalhesCommand => new Command<Noticia_DTO>(async n =>
+    {
+        var noticiaJSON = JsonSerializer.Serialize(n);
+        await Shell.Current.GoToAsync($"NoticiaDetalhePage?noticia={Uri.EscapeDataString(noticiaJSON)}", true);
+    });
+
+    
 
     private bool activity = false;
     public bool Activity
