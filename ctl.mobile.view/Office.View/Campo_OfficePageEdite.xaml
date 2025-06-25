@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctl.mobile.view.Office.View.Campo_OfficePageEdite"
+             Title="Editar campo"
+             BackgroundColor="#058380"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
+             Shell.BackgroundColor="#058380"
+             Shell.ForegroundColor="#FFF"
+             Shell.TitleColor="#FFF"
+             x:DataType="vm:Campo_EditarViewModel">
+
+
+
+    <ContentPage.BindingContext>
+        <vm:Campo_EditarViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid RowDefinitions="Auto, Auto, *"
+              IsEnabled="{Binding EnablePage}">
+            <Image Source="bg_image"
+                   Grid.RowSpan="2"/>
+            <Border Grid.Row="1"
+                    Grid.RowSpan="2"
+                    StrokeThickness="0"
+                    BackgroundColor="#FFF"
+                    Padding="25"
+                    StrokeShape="RoundRectangle 40 40 0 0">
+                <Grid RowDefinitions="*, Auto, Auto,Auto, *"
+                      RowSpacing="10">
+                    <Image Source="quadra_on"
+                           RotationX="40"/>
+                    <Border Grid.Row="1"
+                            BackgroundColor="#f2f4f5"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 40"
+                            Padding="15,-15">
+                        <Entry Placeholder="Descrição do campo"
+                               HeightRequest="75"
+                               FontSize="22"
+                               Text="{Binding Campo.Nome}"/>
+                    </Border>
+                    <Border Grid.Row="2"
+                            BackgroundColor="#f2f4f5"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 40"
+                            Padding="15,-15">
+                        <Entry Placeholder="Preço do campo por hora"
+                               HeightRequest="75"
+                               Keyboard="Numeric"
+                               FontSize="22"
+                               Text="{Binding Campo.Preco}"/>
+                    </Border>
+                    <Border Grid.Row="3"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            HeightRequest="55">
+                        <Grid>
+                            <Image Source="bg_button"
+                                   Aspect="Fill"/>
+                            <Button BackgroundColor="Transparent"
+                                    Text="Editar campo"
+                                    FontSize="20"
+                                    FontFamily="MontserratMedium"
+                                    Command="{Binding EditarCampoCommand}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+        <StackLayout BackgroundColor="#000"
+                     Opacity="0.8"
+                     IsVisible="{Binding Activity}"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill"/>
+        <Image Source="carregar"
+               IsVisible="{Binding Activity}"
+               IsAnimationPlaying="{Binding Activity}"
+               WidthRequest="100"/>
+    </Grid>
+
+
+</ContentPage>

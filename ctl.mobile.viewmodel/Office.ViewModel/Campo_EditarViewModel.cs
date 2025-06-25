@@ -6,12 +6,13 @@ using ctl.share.DTO_App.Campo;
 
 namespace ctl.mobile.viewmodel.Office.ViewModel;
 
-public class Campo_AddViewModel : BindableObject
+[QueryProperty(nameof(CampoJSON), "campo")]
+public class Campo_EditarViewModel : BindableObject
 {
     readonly HttpClient client;
     readonly JsonSerializerOptions options;
 
-    public Campo_AddViewModel()
+    public Campo_EditarViewModel()
     {
         client = new HttpClient() { BaseAddress = new Uri($"{Dominio.URLApp}") };
         options = new JsonSerializerOptions
@@ -20,8 +21,22 @@ public class Campo_AddViewModel : BindableObject
         };
     }
 
-    private Cadastrar_Campo_DTO campo = new();
-    public Cadastrar_Campo_DTO Campo
+    private string campoJSON = string.Empty;
+    public string CampoJSON
+    {
+        get => campoJSON;
+        set
+        {
+            campoJSON = value;
+            if (!string.IsNullOrEmpty(campoJSON))
+            {
+                Campo = JsonSerializer.Deserialize<Editar_Campo_DTO>(campoJSON) ?? new();
+            }
+        }
+    }
+
+    private Editar_Campo_DTO campo = new();
+    public Editar_Campo_DTO Campo
     {
         get => campo;
         set
@@ -31,7 +46,7 @@ public class Campo_AddViewModel : BindableObject
         }
     }
 
-    public ICommand AddCampoCommand => new Command(async () =>
+    public ICommand EditarCampoCommand => new Command(async () =>
     {
         if (string.IsNullOrWhiteSpace(Campo.Nome))
         {
@@ -46,7 +61,7 @@ public class Campo_AddViewModel : BindableObject
         ActivityCommand.Execute(null);
         var json = JsonSerializer.Serialize(Campo, options);
         var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("cadastrar/campo", content);
+        var response = await client.PutAsync("editar/campo", content);
 
         if (response.IsSuccessStatusCode)
         {
@@ -92,3 +107,4 @@ public class Campo_AddViewModel : BindableObject
     });
 
 }
+

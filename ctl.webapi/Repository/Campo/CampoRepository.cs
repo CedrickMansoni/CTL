@@ -44,9 +44,9 @@ public class CampoRepository(AppDataContext context) : ICampoRepository
             var campoDb = await _context.TabelaCampo.FindAsync(id);
             if (campoDb == null)
                 return "Campo não encontrado!";
-            campoDb.Estado = "Inactivo";
+            _context.TabelaCampo.Remove(campoDb);
             await _context.SaveChangesAsync();
-            return "Campo desactivado com sucesso!";
+            return "Campo eliminado com sucesso!";
         }
         catch (Exception ex)
         {

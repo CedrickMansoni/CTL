@@ -32,47 +32,68 @@
         <CollectionView x:Name="colecao"
                         ItemsSource="{Binding Campos}"
                         SelectionMode="None"
-                        Margin="10"
+                        Margin="5"
                         Grid.Row="1">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="data:Listar_Campo_DTO">
-                    <StackLayout Padding="10, 5">
-                        <Border BackgroundColor="#f2f4f5"
-                                Padding="0, 10"
-                                StrokeShape="RoundRectangle 10">
-                            <Grid RowDefinitions="*,*,*"
-                                  ColumnDefinitions="*,Auto,3*"
-                                  ColumnSpacing="10">
-                                <Image Source="quadra_on"
-                                       Grid.RowSpan="2"
-                                       HorizontalOptions="Start"
-                                       Margin="10"/>
-                                <Border Grid.Column="1"
-                                        Grid.RowSpan="3"/>
-                                <Label Text="{Binding Nome, StringFormat= CAMPO: '{0}'}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       FontSize="20"
-                                       Grid.Row="0"
-                                       Grid.Column="2"
-                                       FontFamily="MontserratMedium"/>
-                                <Label Text="{Binding Preco, StringFormat= PREÇO: '{0}'}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       FontSize="20"
-                                       Grid.Row="1"
-                                       Grid.Column="2"
-                                       FontFamily="MontserratMedium"/>
-                                <Label Text="{Binding Estado, StringFormat= ESTADO: '{0}'}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       FontSize="20"
-                                       Grid.Row="2"
-                                       Grid.Column="2"
-                                       FontFamily="MontserratMedium"/>
-                            </Grid>
-                        </Border>
-                    </StackLayout>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItemView>
+                                    <Grid Margin="2"
+                                          ColumnSpacing="5"
+                                          ColumnDefinitions="*,*">
+                                        <Button Text="Editar"
+                                                BackgroundColor="SeaGreen"
+                                                Command="{Binding BindingContext.GotoEditeCampoCommand, Source = {x:Reference Name = colecao}}"
+                                                CommandParameter="{Binding .}"/>
+                                        <Button Text="Apagar"
+                                                BackgroundColor="Red"
+                                                Grid.Column="1"
+                                                Command="{Binding BindingContext.DeletarCampoCommand, Source = {x:Reference Name = colecao}}"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </SwipeItemView>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <StackLayout Padding="10, 5">
+                            <Border BackgroundColor="#f2f4f5"
+                                    Padding="0, 10"
+                                    StrokeShape="RoundRectangle 10">
+                                <Grid RowDefinitions="*,*,*"
+                                      ColumnDefinitions="*,Auto,3*"
+                                      ColumnSpacing="10">
+                                    <Image Source="quadra_on"
+                                           Grid.RowSpan="2"
+                                           HorizontalOptions="Start"
+                                           Margin="10"/>
+                                    <Border Grid.Column="1"
+                                            Grid.RowSpan="3"/>
+                                    <Label Text="{Binding Nome, StringFormat= CAMPO: '{0}'}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Start"
+                                           FontSize="20"
+                                           Grid.Row="0"
+                                           Grid.Column="2"
+                                           FontFamily="MontserratMedium"/>
+                                    <Label Text="{Binding Preco, StringFormat= PREÇO: '{0}'}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Start"
+                                           FontSize="20"
+                                           Grid.Row="1"
+                                           Grid.Column="2"
+                                           FontFamily="MontserratMedium"/>
+                                    <Label Text="{Binding Estado, StringFormat= ESTADO: '{0}'}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Start"
+                                           FontSize="20"
+                                           Grid.Row="2"
+                                           Grid.Column="2"
+                                           FontFamily="MontserratMedium"/>
+                                </Grid>
+                            </Border>
+                        </StackLayout>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
