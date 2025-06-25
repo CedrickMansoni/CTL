@@ -10,8 +10,8 @@ namespace ctl.mobile.viewmodel.Share.ViewModel;
 
 public class Noticia_ViewModel : BindableObject
 {
-    HttpClient client;
-    JsonSerializerOptions options;
+    readonly HttpClient client;
+    readonly JsonSerializerOptions options;
     public Noticia_ViewModel()
     {
         client = new HttpClient() { BaseAddress = new Uri($"{Dominio.URLApp}") };
@@ -62,6 +62,19 @@ public class Noticia_ViewModel : BindableObject
                     return;
                 }
 
+                foreach (var item in a)
+                {
+                    var u = Noticias.FirstOrDefault(x => x.Id == item.Id);
+                    if (u is null) continue;
+                    
+                    if (u.Titulo != item.Titulo || u.Materia != item.Materia || u.Imagem != item.Imagem)
+                    {
+                        int index = Noticias.IndexOf(u);
+                        Noticias.RemoveAt(index);
+                        Noticias.Insert(index, item);
+                    }
+                }
+
                 // Adiciona apenas os que ainda não estão em Campos
                 var novasNoticias = a.Except(Noticias, new ListarNoticiaDtoComparer()).ToList();
                 foreach (var n in novasNoticias)
@@ -90,7 +103,32 @@ public class Noticia_ViewModel : BindableObject
         await Shell.Current.GoToAsync($"NoticiaDetalhePage?noticia={Uri.EscapeDataString(noticiaJSON)}", true);
     });
 
-    
+    public ICommand DeletarNoticiaCommand => new Command<Noticia_DTO>(async n =>
+    {
+        var resposta = await Shell.Current.DisplayAlert("Alerta", "Deseja apagar a notícia?", "Sim", "Não");
+        if (!resposta) return;
+
+        var response = await client.DeleteAsync($"deletar/noticia/{n.Id}");
+        if (response.IsSuccessStatusCode)
+        {
+            var successMessage = await response.Content.ReadAsStringAsync();
+            await Shell.Current.DisplayAlert("Sucesso", $"{successMessage}", "Ok");
+            int index = Noticias.IndexOf(n);
+            Noticias.RemoveAt(index);
+            return;
+        }
+        var errorMessage = await response.Content.ReadAsStringAsync();
+        await Shell.Current.DisplayAlert("Erro", $"{errorMessage}", "Ok");
+
+    });
+
+    public ICommand EditarNoticiaCommand => new Command<Noticia_DTO>(async n =>
+{
+    ActivityCommand.Execute(null);
+    var m = JsonSerializer.Serialize<Noticia_DTO>(n);
+    await Shell.Current.GoToAsync($"NoticiaEdite_OfficePage?noticia={Uri.EscapeDataString(m)}");
+    ActivityCommand.Execute(null);
+});
 
     private bool activity = false;
     public bool Activity

@@ -33,7 +33,7 @@ public class NoticiaService(INoticiaRepository repository, IConfiguration config
             {
                 Directory.CreateDirectory(storagePath);
             }
-            
+
             await _arquivo.SalvarArquivoAsync(noticia.Ficheiro, storagePath, "noticia");
         }
         return result;
@@ -41,7 +41,21 @@ public class NoticiaService(INoticiaRepository repository, IConfiguration config
 
     public async Task<string> Delete(int id)
     {
+        var n = await _repository.GetById(id);
+        if (n is null) return "A notícia que pretende apagar não existe na base de dados";
         var result = await _repository.Delete(id);
+        if (result.Contains("sucesso"))
+        {
+            string storagePath;
+            storagePath = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ?
+            _configuration["VPSStoragePath:ProdutionStoragePath"]! :
+            _configuration["StoragePath:LocalStoragePath"]!;
+            string caminhoFile = Path.Combine(storagePath, "noticia", $"{n.Imagem}");
+            if (File.Exists(caminhoFile))
+            {
+                File.Delete(caminhoFile);
+            }
+        }
         return result;
     }
 
@@ -52,15 +66,29 @@ public class NoticiaService(INoticiaRepository repository, IConfiguration config
 
     public async Task<string> Update(Noticia_DTO noticia)
     {
+         string storagePath;
+            storagePath = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ?
+            _configuration["VPSStoragePath:ProdutionStoragePath"]! :
+            _configuration["StoragePath:LocalStoragePath"]!;
+
+
+        var n = await _repository.GetById(noticia.Id);
+        if (n is null) return "A notícia que pretende editar não existe na base de dados";
+        string caminhoFile = Path.Combine(storagePath, "noticia", $"{n.Imagem}");
+        File.Delete(caminhoFile);
+
         var result = await _repository.Update(new Models.NoticiaModel
         {
             Id = noticia.Id,
-            IdUsuario = noticia.IdUsuario,
             Titulo = noticia.Titulo,
             Materia = noticia.Materia,
-            DataPublicacao = DateTime.SpecifyKind(Convert.ToDateTime(DateTime.Now), DateTimeKind.Utc),
             Imagem = noticia.Ficheiro.FileName,
         });
+        if (result.Contains("sucesso"))
+        {
+            await _arquivo.SalvarArquivoAsync(noticia.Ficheiro, storagePath, "noticia");
+
+        }
         return result;
     }
 }

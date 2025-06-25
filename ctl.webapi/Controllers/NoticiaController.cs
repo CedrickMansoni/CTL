@@ -58,11 +58,27 @@ namespace ctl.webapi.Controllers
             }
         }
 
-        [HttpPut, Route("/atualizar/noticia/{id}")]
-        public async Task<IActionResult> AtualizarNoticia(int id, [FromForm] Noticia_DTO noticia)
+        [HttpPut, Route("/atualizar/noticia")]
+        public async Task<IActionResult> AtualizarNoticia()
         {
             try
             {
+                // Verificar se a requisição possui conteúdo multimídia
+                if (!Request.HasFormContentType)
+                {
+                    return BadRequest("O conteúdo deve ser enviado como multipart/form-data");
+                }
+
+                var form = await Request.ReadFormAsync();
+
+                var noticia = new Noticia_DTO
+                {
+                    Id = int.TryParse(form["id"], out int Id) ? Id : 0,
+                    Titulo = form["titulo"]!,
+                    Materia = form["materia"]!,
+                    Ficheiro = form.Files.GetFile("imagem")!,
+                };
+
                 var result = await _service.Update(noticia);
                 return result.Contains("sucesso") ? Ok(result) : BadRequest(result);
             }

@@ -61,11 +61,11 @@ public class NoticiaRepository(AppDataContext context) : INoticiaRepository
             existingNoticia.Imagem = noticia.Imagem;
 
             await _context.SaveChangesAsync();
-            return "Noticia atualizada com sucesso!";
+            return "Noticia actualizada com sucesso!";
         }
-        catch (Exception ex)
+        catch 
         {
-            return $"Erro ao atualizar noticia: {ex.Message}";
+            return $"Erro ao actualizar noticia";
         }
     }
 

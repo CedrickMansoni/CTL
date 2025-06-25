@@ -7,11 +7,12 @@ using ctl.share.DTO_App.Noticia;
 
 namespace ctl.mobile.viewmodel.Office.ViewModel;
 
-public class NoticiaAdd_OfficeViewModel : BindableObject
+[QueryProperty(nameof(NoticiaJSON), "noticia")]
+public class NoticiaEdite_OfficeViewModel : BindableObject
 {
     readonly HttpClient client;
     readonly JsonSerializerOptions options;
-    public NoticiaAdd_OfficeViewModel()
+    public NoticiaEdite_OfficeViewModel()
     {
         client = new HttpClient() { BaseAddress = new Uri($"{Dominio.URLApp}") };
         options = new JsonSerializerOptions
@@ -23,11 +24,25 @@ public class NoticiaAdd_OfficeViewModel : BindableObject
     private Noticia_DTO noticia = new();
     public Noticia_DTO Noticia
     {
-        get { return noticia; }
+        get => noticia;
         set
         {
             noticia = value;
             OnPropertyChanged(nameof(Noticia));
+        }
+    }
+
+    private string noticiaJSON = string.Empty;
+    public string NoticiaJSON
+    {
+        get => noticiaJSON;
+        set
+        {
+            noticiaJSON = value;
+            if (!string.IsNullOrEmpty(NoticiaJSON))
+            {
+                Noticia = JsonSerializer.Deserialize<Noticia_DTO>(NoticiaJSON) ?? new();
+            }
         }
     }
 
@@ -65,7 +80,7 @@ public class NoticiaAdd_OfficeViewModel : BindableObject
         }
     }
 
-    public ICommand CadastrarNoticiaCommand => new Command(async () =>
+    public ICommand EditarNoticiaCommand => new Command(async () =>
     {
         if (string.IsNullOrEmpty(Noticia.Titulo))
         {
@@ -87,24 +102,26 @@ public class NoticiaAdd_OfficeViewModel : BindableObject
         noticia.IdUsuario = Convert.ToInt32(idUsuario);
         var formData = new MultipartFormDataContent
         {
-            { new StringContent(Noticia.IdUsuario.ToString()), "idUsuario" },
+            { new StringContent(Noticia.Id.ToString()), "id" },
             { new StringContent(Noticia.Titulo), "titulo" },
             { new StringContent(Noticia.Materia), "materia" },
         };
 
         AdicionarArquivoAoFormData(formData, CaminhoImagem, "imagem");
 
-        var response = await client.PostAsync("adicionar/noticia", formData);
+        var response = await client.PutAsync("atualizar/noticia", formData);
         if (response.IsSuccessStatusCode)
         {
             ActivityCommand.Execute(null);
-            await Shell.Current.DisplayAlert("Sucesso", "Noticia cadastrada com sucesso", "OK");
+            var successMessage = await response.Content.ReadAsStringAsync();
+            await Shell.Current.DisplayAlert("Sucesso", $"{successMessage}", "OK");
             await Shell.Current.GoToAsync("..");
         }
         else
         {
             ActivityCommand.Execute(null);
-            await Shell.Current.DisplayAlert("Erro", "Erro ao cadastrar noticia", "OK");
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            await Shell.Current.DisplayAlert("Erro", $"{errorMessage}", "OK");
         }
     });
 

@@ -50,14 +50,18 @@
                                                 <Button Text=""
                                                         HeightRequest="100"
                                                         CornerRadius="90"
-                                                        BackgroundColor="Transparent"/>
+                                                        BackgroundColor="Transparent"
+                                                        Command="{Binding BindingContext.DeletarNoticiaCommand, Source = {x:Reference Name = colecao}}"
+                                                        CommandParameter="{Binding .}"/>
                                             </Grid>
                                             <Grid Grid.Row="1">
                                                 <Image Source="editar"/>
                                                 <Button Text=""
                                                         HeightRequest="100"
                                                         CornerRadius="90"
-                                                        BackgroundColor="Transparent"/>
+                                                        BackgroundColor="Transparent"
+                                                        Command="{Binding BindingContext.EditarNoticiaCommand, Source = {x:Reference Name = colecao}}"
+                                                        CommandParameter="{Binding .}"/>
                                             </Grid>
 
                                         </Grid>
