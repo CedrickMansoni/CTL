@@ -34,8 +34,6 @@ namespace ctl.webapi.Controllers
                 IBAN = form["iban"]!
             };
             
-
-
             var response = await _service.AddBancoAsync(banco, conta);
             return response.Contains("sucesso") ? Ok(response) : BadRequest(response);
         }
@@ -54,8 +52,8 @@ namespace ctl.webapi.Controllers
             return response != null ? Ok(response) : NotFound("Banco não encontrado.");
         }
 
-        [HttpPut, Route("/editar/banco/{id}")]
-        public async Task<IActionResult> EditarBanco(int id)
+        [HttpPut, Route("/editar/banco")]
+        public async Task<IActionResult> EditarBanco()
         {
             // Verificar se a requisição possui conteúdo multimídia
             if (!Request.HasFormContentType)
@@ -67,7 +65,7 @@ namespace ctl.webapi.Controllers
 
             var banco = new Banco_DTO
             {
-                Id = id,
+                Id = int.TryParse(form["id"], out int Id) ? Id : 0,
                 NomeAbreviado = form["nome"]!,
                 Logo = form.Files.GetFile("logo")!,
                 Estado = form["estado"]!

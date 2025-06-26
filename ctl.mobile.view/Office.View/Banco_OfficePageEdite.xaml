@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ctl.mobile.view.Office.View.Banco_OfficePageEdite"
+             Title="Editar banco"
+             BackgroundColor="#058380"
+             Shell.BackgroundColor="#058380"
+             Shell.ForegroundColor="#FFF"
+             Shell.TitleColor="#FFF"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Office.ViewModel;assembly=ctl.mobile.viewmodel"
+             x:DataType="vm:Banco_EditeViewModel">
+
+
+    <ContentPage.BindingContext>
+        <vm:Banco_EditeViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid RowDefinitions="Auto,Auto,auto, *"
+              IsEnabled="{Binding EnablePage}">
+            <Image Source="bg_imageplay"
+                   Grid.Row="0"
+                   Grid.RowSpan="3"
+                   Aspect="Fill"/>
+            <Border Grid.Row="2"
+                    Grid.RowSpan="2"
+                    StrokeShape="RoundRectangle 30 30 0 0"
+                    StrokeThickness="0"
+                    Padding="30"
+                    BackgroundColor="#FFF">
+                <Grid RowDefinitions="*,Auto, Auto, Auto, Auto,Auto,Auto"
+                      RowSpacing="18">
+                    <Border VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="80"
+                            WidthRequest="80"
+                            BackgroundColor="#058380"
+                            StrokeShape="RoundRectangle 60">
+                        <Image Source="banco"
+                               HeightRequest="60"
+                               WidthRequest="60"
+                               Aspect="Fill"/>
+                    </Border>
+                    <Border Grid.Row="1"
+                            BackgroundColor="#f2f4f5"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            Padding="15, -15">
+                        <Entry Placeholder="Nome do banco"
+                               HeightRequest="75"
+                               FontFamily="MontserratMedium"
+                               FontSize="20"
+                               Text="{Binding Banco.NomeAbreviado}"/>
+                    </Border>
+
+                    <Border Grid.Row="2"
+                            BackgroundColor="#f2f4f5"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            Padding="15, -15">
+                        <Entry Placeholder="Número da conta"
+                               HeightRequest="75"
+                               FontFamily="MontserratMedium"
+                               FontSize="20"
+                               Text="{Binding Banco.Conta}"/>
+                    </Border>
+
+                    <Border Grid.Row="3"
+                            BackgroundColor="#f2f4f5"
+                            StrokeShape="RoundRectangle 30"
+                            StrokeThickness="0"
+                            Padding="15, -15">
+                        <Entry Placeholder="IBAN"
+                               HeightRequest="75"
+                               FontFamily="MontserratMedium"
+                               FontSize="20"
+                               Text="{Binding Banco.IBAN}"/>
+                    </Border>
+
+                    <Image Source="{Binding ColorFile}"
+                           Grid.Row="4"
+                           HeightRequest="40"
+                           HorizontalOptions="Start">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AbrirCameraCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Label Text="{Binding NomeFile}"
+                           Grid.Row="4"
+                           VerticalOptions="Center"
+                           Margin="45, 0"
+                           FontFamily="MontserratMedium"
+                           FontSize="15"/>
+                    <Button Text="Salvar"
+                            Grid.Row="5"
+                            BackgroundColor="#058380"
+                            FontFamily="MontserratMedium"
+                            FontSize="19"
+                            Command="{Binding EditarBancoCommand}"/>
+                </Grid>
+            </Border>
+
+        </Grid>
+        <StackLayout IsVisible="{Binding Activity}"
+                     Opacity="0.6"
+                     BackgroundColor="#000"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill"/>
+        <Image Source="carregar"
+               IsAnimationPlaying="{Binding Activity}"
+               IsVisible="{Binding Activity}"
+               WidthRequest="100"/>
+    </Grid>
+</ContentPage>

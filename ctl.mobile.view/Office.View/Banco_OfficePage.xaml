@@ -39,43 +39,64 @@
                         Grid.Row="1">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="data:Banco_Response_DTO">
-                    <StackLayout Padding="10, 5">
-                        <Border BackgroundColor="#f2f4f5"
-                                Padding="0, 10"
-                                StrokeShape="RoundRectangle 10">
-                            <Grid RowDefinitions="*,*,*"
-                                  ColumnDefinitions="*,Auto,3*"
-                                  ColumnSpacing="10">
-                                <Image Source="{Binding Logo}"
-                                       Grid.RowSpan="3"
-                                       HorizontalOptions="Start"
-                                       Margin="10"/>
-                                <Border Grid.Column="1"
-                                        Grid.RowSpan="3"/>
-                                <Label Text="{Binding NomeAbreviado}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       FontSize="18"
-                                       Grid.Row="0"
-                                       Grid.Column="2"
-                                       FontFamily="MontserratMedium"/>
-                                <Label Text="{Binding Conta, StringFormat= Conta: '{0}'}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       FontSize="18"
-                                       Grid.Row="1"
-                                       Grid.Column="2"
-                                       FontFamily="MontserratMedium"/>
-                                <Label Text="{Binding IBAN, StringFormat= IBAN: '{0}'}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       FontSize="18"
-                                       Grid.Row="2"
-                                       Grid.Column="2"
-                                       FontFamily="MontserratMedium"/>
-                            </Grid>
-                        </Border>
-                    </StackLayout>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItemView>
+                                    <Grid ColumnDefinitions="*,*"
+                                          ColumnSpacing="2"
+                                          Margin="2">
+                                        <Button Text="Editar"
+                                                BackgroundColor="SeaGreen"
+                                                Command="{Binding BindingContext.EditarBancoCommand, Source = {x:Reference Name = colecao}}"
+                                                CommandParameter="{Binding .}"/>
+                                        <Button Text="Apagar"
+                                                Grid.Column="1"
+                                                BackgroundColor="Red"
+                                                Command="{Binding BindingContext.DeletarBancoCommand, Source = {x:Reference Name = colecao}}"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </SwipeItemView>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <StackLayout Padding="10, 5">
+                            <Border BackgroundColor="#f2f4f5"
+                                    Padding="0, 10"
+                                    StrokeShape="RoundRectangle 10">
+                                <Grid RowDefinitions="*,*,*"
+                                      ColumnDefinitions="*,Auto,3*"
+                                      ColumnSpacing="10">
+                                    <Image Source="{Binding Logo}"
+                                           Grid.RowSpan="3"
+                                           HorizontalOptions="Start"
+                                           Margin="10"/>
+                                    <Border Grid.Column="1"
+                                            Grid.RowSpan="3"/>
+                                    <Label Text="{Binding NomeAbreviado}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Start"
+                                           FontSize="18"
+                                           Grid.Row="0"
+                                           Grid.Column="2"
+                                           FontFamily="MontserratMedium"/>
+                                    <Label Text="{Binding Conta, StringFormat= Conta: '{0}'}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Start"
+                                           FontSize="18"
+                                           Grid.Row="1"
+                                           Grid.Column="2"
+                                           FontFamily="MontserratMedium"/>
+                                    <Label Text="{Binding IBAN, StringFormat= IBAN: '{0}'}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Start"
+                                           FontSize="18"
+                                           Grid.Row="2"
+                                           Grid.Column="2"
+                                           FontFamily="MontserratMedium"/>
+                                </Grid>
+                            </Border>
+                        </StackLayout>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>

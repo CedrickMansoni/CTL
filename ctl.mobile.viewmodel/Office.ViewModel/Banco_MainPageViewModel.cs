@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text.Json;
 using System.Windows.Input;
 using ctl.share.Dominio_App;
@@ -9,8 +10,8 @@ namespace ctl.mobile.viewmodel.Office.ViewModel;
 
 public class Banco_MainPageViewModel : BindableObject
 {
-    HttpClient client;
-    JsonSerializerOptions options;
+    readonly HttpClient client;
+    readonly JsonSerializerOptions options;
     public Banco_MainPageViewModel()
     {
         client = new HttpClient() { BaseAddress = new Uri($"{Dominio.URLApp}") };
@@ -47,6 +48,20 @@ public class Banco_MainPageViewModel : BindableObject
                 return;
             }
 
+            foreach (var item in a)
+            {
+                var u = Bancos.FirstOrDefault(x => x.Id == item.Id);
+
+                if (u is null) continue;
+
+                if (u.NomeAbreviado != item.NomeAbreviado || u.Conta != item.Conta || u.IBAN != item.IBAN)
+                {
+                    int index = Bancos.IndexOf(u);
+                    Bancos.RemoveAt(index);
+                    Bancos.Insert(index, item);
+                }
+            }
+
             // Adiciona apenas os que ainda não estão em Campos
             var novoBanco = a.Except(Bancos, new ListarBancoDtoComparer()).ToList();
             foreach (var n in novoBanco)
@@ -56,10 +71,34 @@ public class Banco_MainPageViewModel : BindableObject
         }
     });
 
+    public ICommand DeletarBancoCommand => new Command<Banco_Response_DTO>(async banco =>
+    {
+        var resposta = await Shell.Current.DisplayAlert("Alerta", $"Deseja apagar o banco {banco.NomeAbreviado}", "Sim", "Não");
+        if (!resposta) return;
+        var response = await client.DeleteAsync($"remover/banco/{banco.Id}");
+        if (response.IsSuccessStatusCode)
+        {
+            var successMessage = await response.Content.ReadAsStringAsync();
+            await Shell.Current.DisplayAlert("Sucesso", $"{successMessage}", "Ok");
+            int index = Bancos.IndexOf(banco);
+            Bancos.RemoveAt(index);
+            return;
+        }
+        var errorMessage = await response.Content.ReadAsStringAsync();
+        await Shell.Current.DisplayAlert("Erro", $"{errorMessage}", "Ok");
+        return;
+    });
+
+    public ICommand EditarBancoCommand => new Command<Banco_Response_DTO>(async banco =>
+    {
+        var m = JsonSerializer.Serialize<Banco_Response_DTO>(banco);
+        await Shell.Current.GoToAsync($"Banco_OfficePageEdite?banco={Uri.EscapeDataString(m)}");
+    });
+
     public ICommand CopiarContaOrIbanCommand => new Command<Banco_Response_DTO>(async (dados) =>
     {
         var resposta = await Shell.Current.DisplayAlert("Área de transferência", "O que deseja copiar para a área de transferência?", "CONTA", "IBAN");
-        
+
         if (resposta)
         {
             ContaCopyToClipboardCommand.Execute(dados.Conta);
@@ -78,13 +117,13 @@ public class Banco_MainPageViewModel : BindableObject
         await Shell.Current.DisplayAlert("Conta", "Conta bancária copiada para a área de transferência", "OK");
     });
 
-        public ICommand IbanCopyToClipboardCommand => new Command<string>(async (p) =>
-    {
-        if (string.IsNullOrEmpty(p)) return;
+    public ICommand IbanCopyToClipboardCommand => new Command<string>(async (p) =>
+{
+    if (string.IsNullOrEmpty(p)) return;
 
-        await Clipboard.SetTextAsync(p);
-        await Shell.Current.DisplayAlert("IBAN", "IBAN copiado para a área de transferência", "OK");
-    });
+    await Clipboard.SetTextAsync(p);
+    await Shell.Current.DisplayAlert("IBAN", "IBAN copiado para a área de transferência", "OK");
+});
 
     public ICommand GotoAddBancoPageCommand => new Command(async () =>
     {

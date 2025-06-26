@@ -45,9 +45,9 @@ public class BancoRepository(AppDataContext context) : IBancoRepository
             await _context.SaveChangesAsync();
             return "Banco excluído com sucesso.";
         }
-        catch (Exception ex)
+        catch 
         {
-            return $"Erro na exclusão do banco: {ex.Message}";
+            return $"Erro na exclusão do banco";
         }
     }
 
@@ -80,6 +80,7 @@ public class BancoRepository(AppDataContext context) : IBancoRepository
                 .FirstOrDefaultAsync(b => b.Id == banco.Id);
             if (existingBanco == null) return "Banco não encontrado.";
             existingBanco.Nome = banco.Nome;
+            existingBanco.Logo = banco.Logo;
             await _context.SaveChangesAsync();
             return "Banco actualizado com sucesso.";
         }

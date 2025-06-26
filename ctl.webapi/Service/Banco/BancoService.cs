@@ -7,11 +7,12 @@ using ctl.webapi.SalvarArquivos;
 
 namespace ctl.webapi.Service.Banco;
 
-public class BancoService(IBancoRepository repository, IArquivoService arquivo, IConfiguration configuration) : IBancoService
+public class BancoService(IBancoRepository repository, IArquivoService arquivo, IConfiguration configuration, IContaService service) : IBancoService
 {
     private readonly IBancoRepository _repository = repository;
     private readonly IArquivoService _arquivo = arquivo;
     private readonly IConfiguration _configuration = configuration;
+    private readonly IContaService _service = service;
 
     public async Task<string> AddBancoAsync(Banco_DTO banco, Conta_DTO conta)
     {
@@ -32,7 +33,7 @@ public class BancoService(IBancoRepository repository, IArquivoService arquivo, 
 
         if (result.Contains("sucesso"))
         {
-            
+
             string storagePath = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ?
             _configuration["VPSStoragePath:ProdutionStoragePath"]! :
             _configuration["StoragePath:LocalStoragePath"]!;
@@ -44,16 +45,27 @@ public class BancoService(IBancoRepository repository, IArquivoService arquivo, 
 
     public async Task<string> DeleteBancoAsync(int id)
     {
+        string storagePath = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ?
+           _configuration["VPSStoragePath:ProdutionStoragePath"]! :
+           _configuration["StoragePath:LocalStoragePath"]!;
+
+
         if (id <= 0)
             return "Id inválido";
 
+        var b = await _repository.GetBancoByIdAsync(id);
+
+        if (b is null) return "O banco que pretende apagar não existe no banco.";
+        File.Delete(Path.Combine(storagePath, "Banco", $"{b.Logo}"));
+
         var result = await _repository.DeleteBancoAsync(id);
+
         return result;
     }
 
     public async Task<IEnumerable<Banco_Response_DTO>> GetAllBancosAsync()
     {
-       return await _repository.GetAllBancosAsync();       
+        return await _repository.GetAllBancosAsync();
     }
 
     public async Task<Banco_Response_DTO?> GetBancoByIdAsync(int id)
@@ -76,8 +88,17 @@ public class BancoService(IBancoRepository repository, IArquivoService arquivo, 
 
     public async Task<string> UpdateBancoAsync(Banco_DTO banco)
     {
-        if (banco == null)
-            throw new ArgumentNullException(nameof(banco));
+        if (banco == null) return "Selecione o banco que pretende editar";
+
+        string storagePath = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ?
+           _configuration["VPSStoragePath:ProdutionStoragePath"]! :
+           _configuration["StoragePath:LocalStoragePath"]!;
+
+
+        var b = await _repository.GetBancoByIdAsync(banco.Id);
+
+        if (b is null) return "O banco que pretende apagar não existe no banco.";
+        File.Delete(Path.Combine(storagePath, "Banco", $"{b.Logo}"));
 
         var result = await _repository.UpdateBancoAsync(new BancoModel
         {
@@ -86,6 +107,13 @@ public class BancoService(IBancoRepository repository, IArquivoService arquivo, 
             Logo = banco.Logo!.FileName,
             Estado = banco.Estado
         });
+
+        await _service.UpdateAsync(new Conta_DTO { IdBanco = banco.Id, IBAN = banco.IBAN, NumeroConta = banco.Conta });
+
+        if (result.Contains("sucesso"))
+        {
+            await _arquivo.SalvarArquivoAsync(banco.Logo, storagePath, "Banco");
+        }
         return result;
     }
 }

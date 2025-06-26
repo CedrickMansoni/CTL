@@ -17,7 +17,8 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(Campo_OfficePageAdd), typeof(Campo_OfficePageAdd));
 		Routing.RegisterRoute(nameof(Banco_OfficePageAdd), typeof(Banco_OfficePageAdd));
 		Routing.RegisterRoute(nameof(NoticiaDetalhePage), typeof(NoticiaDetalhePage));
-		Routing.RegisterRoute("NoticiaEdite_OfficePage", typeof(NoticiaEdite_OfficePage));
-		Routing.RegisterRoute("Campo_OfficePageEdite", typeof(Campo_OfficePageEdite));
+		Routing.RegisterRoute(nameof(NoticiaEdite_OfficePage), typeof(NoticiaEdite_OfficePage));
+		Routing.RegisterRoute(nameof(Campo_OfficePageEdite), typeof(Campo_OfficePageEdite));
+		Routing.RegisterRoute(nameof(Banco_OfficePageEdite), typeof(Banco_OfficePageEdite));
 	}
 }

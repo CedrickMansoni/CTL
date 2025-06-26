@@ -7,11 +7,12 @@ using ctl.share.DTO_App.Banco;
 
 namespace ctl.mobile.viewmodel.Office.ViewModel;
 
-public class Banco_AddViewModel : BindableObject
+[QueryProperty(nameof(BancoJSON), "banco")]
+public class Banco_EditeViewModel : BindableObject
 {
     readonly HttpClient client;
     readonly JsonSerializerOptions options;
-    public Banco_AddViewModel()
+    public Banco_EditeViewModel()
     {
         client = new HttpClient() { BaseAddress = new Uri($"{Dominio.URLApp}") };
         options = new JsonSerializerOptions
@@ -28,6 +29,28 @@ public class Banco_AddViewModel : BindableObject
         {
             banco = value;
             OnPropertyChanged(nameof(Banco));
+        }
+    }
+
+    private string bancoJSON = string.Empty;
+    public string BancoJSON
+    {
+        get => bancoJSON;
+        set
+        {
+            bancoJSON = value;
+            if (!string.IsNullOrEmpty(BancoJSON))
+            {
+                var banc = JsonSerializer.Deserialize<Banco_Response_DTO>(BancoJSON) ?? new();
+                var banc2 = new Banco_DTO
+                {
+                    Id = banc.Id,
+                    NomeAbreviado = banc.NomeAbreviado,
+                    Conta = banc.Conta,
+                    IBAN = banc.IBAN
+                };
+                Banco = banc2;
+            }
         }
     }
 
@@ -65,7 +88,7 @@ public class Banco_AddViewModel : BindableObject
         }
     }
 
-    public ICommand CadastrarBancoCommand => new Command(async () =>
+    public ICommand EditarBancoCommand => new Command(async () =>
     {
         if (string.IsNullOrEmpty(Banco.NomeAbreviado))
         {
@@ -81,6 +104,7 @@ public class Banco_AddViewModel : BindableObject
         ActivityCommand.Execute(null);
         var formData = new MultipartFormDataContent
         {
+            { new StringContent(Banco.Id.ToString()), "id" },
             { new StringContent(Banco.NomeAbreviado.ToString()), "nome" },
             { new StringContent(Banco.Estado.ToString()), "estado" },
             { new StringContent(Banco.Conta!.ToString()), "conta" },
@@ -89,20 +113,21 @@ public class Banco_AddViewModel : BindableObject
 
         AdicionarArquivoAoFormData(formData, CaminhoImagem, "logo");
 
-        var response = await client.PostAsync("adicionar/banco", formData);
+        var response = await client.PutAsync($"editar/banco", formData);
         if (response.IsSuccessStatusCode)
         {
             ActivityCommand.Execute(null);
-            await Shell.Current.DisplayAlert("Sucesso", "Banco cadastrado com sucesso", "OK");
+            await Shell.Current.DisplayAlert("Sucesso", "Banco editado com sucesso", "OK");
             await Shell.Current.GoToAsync("..");
         }
         else
         {
             ActivityCommand.Execute(null);
-            await Shell.Current.DisplayAlert("Erro", "Erro ao cadastrar banco", "OK");
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            await Shell.Current.DisplayAlert("Erro", $"{errorMessage}", "OK");
         }
     });
-    
+
     public ICommand AbrirCameraCommand => new Command(async () =>
     {
         bool response = await Shell.Current.DisplayAlert("...", "Como pretende obter a logo do banco?", "Camera", "Galeria");
