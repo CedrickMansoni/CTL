@@ -82,9 +82,9 @@ public class MarcacaoService(IMarcacaoRepository repository, IConfiguration conf
         return result;
     }
 
-    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int idCampo, DateTime dataMarcacao, int skip = 0, int take = 30)
+    public async Task<IEnumerable<Listar_Marcacao_DTO>> ListarMarcacao(int skip = 0, int take = 30)
     {
-        return await _repository.ListarMarcacao(idCampo, dataMarcacao, skip, take);
+        return await _repository.ListarMarcacao(skip, take);
         
     }
 

@@ -47,12 +47,16 @@
                                 <Label Text="{Binding Titulo, StringFormat='{0}'}"
                                        FontSize="Title"
                                        MaxLines="2"
-                                       FontFamily="MontserratMedium"/>
+                                       FontFamily="AlfaRegular"/>
                                 <Label Text="{Binding Materia, StringFormat='{0}'}"
                                        FontSize="Medium"
                                        MaxLines="3"
                                        FontFamily="MontserratMedium"/>
                             </StackLayout>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.VerDetalhesCommand, Source={x:Reference Name = colecao}}"
+                                                      CommandParameter="{Binding .}"/>
+                            </Grid.GestureRecognizers>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

@@ -19,6 +19,8 @@ public static class MauiProgram
 				fonts.AddFont("Montserrat-ExtraLight.ttf", "MontserratExtraLight");
 				fonts.AddFont("Montserrat-Light.ttf", "MontserratLight");
 				fonts.AddFont("Montserrat-Medium.ttf", "MontserratMedium");
+
+				fonts.AddFont("AlfaSlabOne-Regular.ttf", "AlfaRegular");
 			});
 
 #if DEBUG

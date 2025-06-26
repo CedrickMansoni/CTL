@@ -1,6 +1,6 @@
 
 
-using ctl.mobile.viewmodel.Client.ViewModel;
+using ctl.mobile.viewmodel.Share.ViewModel;
 
 namespace ctl.mobile.view.Cliente.View;
 
@@ -14,7 +14,7 @@ public partial class Reserva_ClientPage : ContentPage
 	protected override void OnAppearing()
 	{
 		base.OnAppearing();
-		var vm = (Reserva_ViewModel)BindingContext;
+		var vm = (Reservas_ViewModel)BindingContext;
 		vm.ListarMarcacoesCommand.Execute(null);
-    }
+	}
 }

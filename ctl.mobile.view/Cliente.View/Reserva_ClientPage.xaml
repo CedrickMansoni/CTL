@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ctl.mobile.view.Cliente.View.Reserva_ClientPage"
              BackgroundColor="#058380"
-             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Client.ViewModel;assembly=ctl.mobile.viewmodel"
-             x:DataType="vm:Reserva_ViewModel"
+             xmlns:vm="clr-namespace:ctl.mobile.viewmodel.Share.ViewModel;assembly=ctl.mobile.viewmodel"
+             x:DataType="vm:Reservas_ViewModel"
              xmlns:data="clr-namespace:ctl.share.DTO_App.Marcacao;assembly=ctl.share"
              Shell.NavBarIsVisible="False">
 
 
    <ContentPage.BindingContext>
-      <vm:Reserva_ViewModel/>
+      <vm:Reservas_ViewModel/>
    </ContentPage.BindingContext>
 
    <Grid RowDefinitions="Auto,*,Auto">

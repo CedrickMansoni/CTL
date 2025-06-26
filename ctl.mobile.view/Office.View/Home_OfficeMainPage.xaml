@@ -80,7 +80,7 @@
                                     <Label Text="{Binding Titulo, StringFormat='{0}'}"
                                            FontSize="Title"
                                            MaxLines="2"
-                                           FontFamily="MontserratMedium"/>
+                                           FontFamily="AlfaRegular"/>
                                     <Label Text="{Binding Materia, StringFormat='{0}'}"
                                            FontSize="Medium"
                                            MaxLines="3"
